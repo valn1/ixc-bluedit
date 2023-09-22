@@ -1,12 +1,8 @@
 import React from "react";
-import {Navigator} from "./Navigation";
-import {ViewApp} from "./Styles/StylesApp/StylesApp";
-
+import {Navigator} from "./Navigation/Navigation";
 const App: React.FC = () => {
     return(
-        <ViewApp>
-            <Navigator></Navigator>
-        </ViewApp>
+        <Navigator/>
     )
 }
 export default App
