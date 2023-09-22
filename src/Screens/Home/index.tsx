@@ -1,11 +1,17 @@
 import React from "react";
-import {Text} from "react-native";
 import {ViewGeneric} from "./Styles";
+import {Publication} from "../../Components/Publication";
 
 const Home: React.FC = () => {
+    const datamock = {
+        title: "Teste um",
+        userMail: "alexandrebeilner10@gmail.com",
+        userName: "Alexandre"
+    }
+
     return(
         <ViewGeneric>
-            <Text>Home</Text>
+            <Publication userMail={datamock.userMail} userName={datamock.userName} title={datamock.title}/>
         </ViewGeneric>
     )
 }
