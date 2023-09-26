@@ -22,13 +22,16 @@ export const screenOptions = () : BottomTabNavigationOptions => {
         tabBarLabelStyle:{
             color: '#fff',
             marginBottom: 10,
+            fontSize: 13,
+            marginTop: -10,
         },
         tabBarIconStyle: {
             marginTop: 9,
         },
         tabBarStyle: {
             backgroundColor: '#190049',
-            height: 65,
+            height: 80,
+            borderColor: '#190049',
         }
     };
 };

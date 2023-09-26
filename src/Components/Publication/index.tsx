@@ -1,18 +1,19 @@
 import React from "react";
-import {ViewPost} from "./styles";
+import {ViewPostWhitImage} from "./styles";
 import {HeaderPost} from "./HeaderPost";
 import {dataToPosting} from "./interface";
 import {BoddyPost} from "./BoddyPost";
 import {CommentPost} from "./CommentPost";
+import {PostImage} from "./PostImage";
 
-const Publication: React.FC<dataToPosting> = ({userMail, userName, title}) => {
+const Publication: React.FC<dataToPosting> = ({userMail, userName, title, text, publicationImage}) => {
     return(
-        <ViewPost>
+        <ViewPostWhitImage>
             <HeaderPost userName={userName} userMail={userMail}></HeaderPost>
-            <BoddyPost title={title}></BoddyPost>
+            <BoddyPost title={title} text={text}></BoddyPost>
+            {publicationImage ? <PostImage publicationImage={publicationImage}></PostImage> : null}
             <CommentPost></CommentPost>
-        </ViewPost>
+        </ViewPostWhitImage>
     )
-
 }
 export {Publication}

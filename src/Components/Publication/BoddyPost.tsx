@@ -2,14 +2,14 @@ import React from "react";
 import {ViewBoddyPost, TitleView, ContentView, TitleText, ContentText} from './styles'
 import {dataToPosting} from "./interface";
 
-const BoddyPost: React.FC<dataToPosting> = ({title}) => {
+const BoddyPost: React.FC<dataToPosting> = ({title, text}) => {
     return(
         <ViewBoddyPost>
             <TitleView>
                 <TitleText>{title}</TitleText>
             </TitleView>
             <ContentView>
-                <ContentText>Teste umTeste umTeste umTeste umTeste umTeste umTeste umTeste umTeste umTeste um</ContentText>
+                <ContentText>{text}</ContentText>
             </ContentView>
         </ViewBoddyPost>
     )
