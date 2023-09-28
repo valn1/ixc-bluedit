@@ -1,14 +1,12 @@
 import React from "react";
-import {ImagePost, ViewPostImage, dotStyle} from './styles'
-import {dataToPosting} from "./interface";
+import {Photo, ImageContainer, dotStyle} from './styles'
+import {Album} from "./interface";
 import Swiper from 'react-native-swiper'
 import {Text, View} from "react-native";
 
-const PostImage: React.FC<dataToPosting> = ({publicationImage}) => {
+const Carrousel: React.FC<Album> = ({AlbumData}) => {
     const StylesButon = (valor :string) => <Text style={{fontSize: 80, color: 'white'}}>{valor}</Text>
     const dot = (dotColor: string) => <View style={dotStyle(dotColor)} />
-
-    const image = publicationImage || [];
 
     return(
         <Swiper
@@ -22,12 +20,13 @@ const PostImage: React.FC<dataToPosting> = ({publicationImage}) => {
             paginationStyle={{bottom: -25}}
             height={290}
         >
-            {image.map((item, index) => (
-                <ViewPostImage key={index}>
-                    <ImagePost resizeMode="contain" source={{uri: item}}/>
-                </ViewPostImage>
+            {AlbumData?.map((item, index) => (
+                <ImageContainer key={index}>
+                    <Photo resizeMode="contain" source={{uri: item.photo?.url}}/>
+                </ImageContainer>
             ))}
+
         </Swiper>
     )
 }
-export {PostImage};
+export {Carrousel};

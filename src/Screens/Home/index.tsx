@@ -1,7 +1,8 @@
 import React from "react";
 import {ViewGeneric} from "./Styles";
-import {Publication} from "../../Components/Publication";
-import {ScrollView} from "react-native";
+import {Post} from "../../Components/Post";
+import {FlatList} from "react-native";
+import {Album} from "../../Components/Carrousel/interface";
 
 const Home: React.FC = () => {
     const dataToTest = {
@@ -11,43 +12,70 @@ const Home: React.FC = () => {
         text: "Teste umTeste umTeste umTeste umTeste umTeste umTeste umTeste umTeste umTeste um"
     }
 
-    const urlToTest: string[] = [
-        "https://img.freepik.com/fotos-gratis/linhas-brilhantes-na-forma-3d-do-coracao-humano-em-fundo-escuro-generativo-ai_191095-1435.jpg",
-        "https://img.freepik.com/fotos-gratis/uma-pintura-de-um-lago-de-montanha-com-uma-montanha-ao-fundo_188544-9126.jpg",
-        "https://repositorio.sbrauble.com/arquivos/up/ecom/prod/t/222378/1616950989_4869150.jpg"
-    ]
+    const urlToTest: Album = {
+        AlbumData: [
+            {
+                userId: 1,
+                id: 1,
+                title: "quidem molestiae enim",
+                photo: {
+                    albumId: 1,
+                    id: 6,
+                    title: "accusamus ea aliquid et amet sequi nemo",
+                    url: "https://via.placeholder.com/600/56a8c2",
+                    thumbnailUrl: "https://via.placeholder.com/150/56a8c2"
+                }
+            },
+            {
+                userId: 1,
+                id: 2,
+                title: "sunt qui excepturi placeat culpa",
+                photo: {
+                    albumId: 1,
+                    id: 7,
+                    title: "officia delectus consequatur vero aut veniam explicabo molestias",
+                    url: "https://via.placeholder.com/600/b0f7cc",
+                    thumbnailUrl: "https://via.placeholder.com/150/b0f7cc"
+                }
+            },{
+                userId: 1,
+                id: 3,
+                title: "omnis laborum odio",
+                photo: {
+                    albumId: 1,
+                    id: 8,
+                    title: "aut porro officiis laborum odit ea laudantium corporis",
+                    url: "https://via.placeholder.com/600/54176f",
+                    thumbnailUrl: "https://via.placeholder.com/150/54176f"
+                }
+            },{
+                userId: 1,
+                id: 4,
+                title: "non esse culpa molestiae omnis sed optio",
+                photo: {
+                    albumId: 1,
+                    id: 9,
+                    title: "qui eius qui autem sed",
+                    url: "https://via.placeholder.com/600/51aa97",
+                    thumbnailUrl: "https://via.placeholder.com/150/51aa97"
+                }
+            }
+        ]
+    }
 
     return(
-        <ScrollView>
-            <ViewGeneric>
-                <Publication
-                    userMail={dataToTest.userMail}
-                    userName={dataToTest.userName}
-                    title={dataToTest.title}
-                    text={dataToTest.text}
-                />
-                <Publication
-                    userMail={dataToTest.userMail}
-                    userName={dataToTest.userName}
-                    title={dataToTest.title}
-                    text={dataToTest.text}
-                    publicationImage={urlToTest}
-                />
-                <Publication
-                    userMail={dataToTest.userMail}
-                    userName={dataToTest.userName}
-                    title={dataToTest.title}
-                    text={dataToTest.text}
-                />
-                <Publication
-                    userMail={dataToTest.userMail}
-                    userName={dataToTest.userName}
-                    title={dataToTest.title}
-                    publicationImage={urlToTest}
-                    text={dataToTest.text}
-                />
-            </ViewGeneric>
-        </ScrollView>
+            <FlatList  data={urlToTest.AlbumData} renderItem={({item}) => {
+                return(
+                    <ViewGeneric key={item.id}>
+                        <Post
+                            userMail={dataToTest.userMail}
+                            userName={dataToTest.userName}
+                            post={{title: item.title, body: item.photo?.title}}
+                            album={urlToTest}
+                        />
+                    </ViewGeneric>
+                )
+            }}/>
     )
 }
 

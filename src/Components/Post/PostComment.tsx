@@ -1,16 +1,16 @@
 import React from "react";
-import {ViewCommentPost, HowManyComments} from './styles'
+import {PostCommentView, CommentAmount} from './styles'
 import Icon from "react-native-vector-icons/Octicons";
 import {TouchableOpacity} from "react-native";
 
-const CommentPost: React.FC = () => {
+const PostComment: React.FC = () => {
     return(
-        <ViewCommentPost>
-            <HowManyComments>xx</HowManyComments>
+        <PostCommentView>
+            <CommentAmount>xx</CommentAmount>
             <TouchableOpacity>
                 <Icon name={"comment"} size={30} color={"white"}/>
             </TouchableOpacity>
-        </ViewCommentPost>
+        </PostCommentView>
     )
 }
-export {CommentPost}
+export {PostComment}
