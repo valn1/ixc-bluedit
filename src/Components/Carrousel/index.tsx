@@ -20,9 +20,9 @@ const Carrousel: React.FC<Album> = ({AlbumData}) => {
             paginationStyle={{bottom: -25}}
             height={290}
         >
-            {AlbumData?.map((item, index) => (
+            {AlbumData?.photos?.map((item, index) => (
                 <ImageContainer key={index}>
-                    <Photo resizeMode="contain" source={{uri: item.photo?.url}}/>
+                    <Photo resizeMode="contain" source={{uri: item.url}}/>
                 </ImageContainer>
             ))}
 
