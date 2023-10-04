@@ -1,69 +1,114 @@
-import React from "react";
-import {ViewGeneric} from "./Styles";
+import React, {JSX, useEffect, useState} from "react";
+import {HomeContainer} from "./Styles";
 import {Post} from "../../Components/Post";
-import {FlatList} from "react-native";
-import {Album} from "../../Components/Carrousel/interface";
+import {FindInput} from "../../Components/FindInput";
+import {get} from "../../helpers/APIHelper";
+import {PostData} from "../../Components/Post/interface";
+import {ActivityIndicator, FlatList, ListRenderItem} from "react-native";
+import {ActivityIndicatorLoading, LoadingContainer} from "./Styles";
 
 const Home: React.FC = () => {
-    const dataToTest = {
-        title: "Teste um",
-        userMail: "alexandrebeilner10@gmail.com",
-        userName: "Alexandre",
-        text: "Teste umTeste umTeste umTeste umTeste umTeste umTeste umTeste umTeste umTeste um"
+    const [userAndPost, setUserAndPost] = useState<PostData[]>([]);
+    const [visiblePost, setVisiblePost] = useState<PostData[]>([]);
+    const [originalPosts, setOriginalPosts] = useState<PostData[]>([]); // Novo estado para os posts originais
+    const [howPostsIsVisible, setHowPostsIsVisible] = useState(20);
+    const [searchText, setSearchText] = useState('');
+
+    useEffect(() => {
+        const setUser = async () => {
+            const users = await get("users");
+            const allPosts: PostData[] = [];
+
+            for (const user of users) {
+                const userPost = await get(`posts`, {key: `?userId=${user.id}`});
+
+                const userPostsData = userPost.map((item: any): PostData => {
+                    return {
+                        userData: {
+                            userId: user.id,
+                            userName: user.username,
+                            userMail: user.email,
+                        },
+                        post: {
+                            userId: item.userId,
+                            id: item.id,
+                            title: item.title,
+                            body: item.body,
+                        },
+                    };
+                });
+
+                allPosts.push(...userPostsData);
+            }
+
+            setUserAndPost(allPosts);
+            const postVisible = allPosts.slice(howPostsIsVisible - 20, howPostsIsVisible);
+            setVisiblePost(postVisible);
+        };
+        setUser()
+    }, []);
+
+    useEffect(() => {
+        const postVisible: PostData[] = userAndPost.slice(howPostsIsVisible - 20, howPostsIsVisible);
+        setVisiblePost(prevState => [...prevState, ...postVisible]);
+        setOriginalPosts(visiblePost);
+    }, [howPostsIsVisible])
+
+    useEffect(() => {
+        if (!searchText) {
+            setVisiblePost(originalPosts);
+        } else {
+            setVisiblePost(
+                userAndPost.filter(
+                    (item) =>
+                        item.userData?.userName?.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+                )
+            );
+        }
+    }, [searchText]);
+    const renderItem: ListRenderItem<PostData> | null | undefined = ({item}): JSX.Element => {
+        return (
+            <Post
+                userData={item.userData}
+                post={item.post}
+            />
+        )
+    }
+    const onEndReached = () => {
+        if (howPostsIsVisible < userAndPost.length && !searchText) {
+            setHowPostsIsVisible(howPostsIsVisible + 20);
+        }
     }
 
-    const urlToTest: Album = {
-        AlbumData:
-            {
-                userId: 1,
-                id: 1,
-                title: "quidem molestiae enim",
-                photos: [
-                    {
-                        albumId: 1,
-                        id: 6,
-                        title: "accusamus ea aliquid et amet sequi nemo",
-                        url: "https://via.placeholder.com/600/56a8c2",
-                        thumbnailUrl: "https://via.placeholder.com/150/56a8c2"
-                    },
-                    {
-                        albumId: 1,
-                        id: 7,
-                        title: "officia delectus consequatur vero aut veniam explicabo molestias",
-                        url: "https://via.placeholder.com/600/b0f7cc",
-                        thumbnailUrl: "https://via.placeholder.com/150/b0f7cc"
-                    },
-                    {
-                        albumId: 1,
-                        id: 8,
-                        title: "aut porro officiis laborum odit ea laudantium corporis",
-                        url: "https://via.placeholder.com/600/54176f",
-                        thumbnailUrl: "https://via.placeholder.com/150/54176f"
-                    },
-                    {
-                        albumId: 1,
-                        id: 9,
-                        title: "qui eius qui autem sed",
-                        url: "https://via.placeholder.com/600/51aa97",
-                        thumbnailUrl: "https://via.placeholder.com/150/51aa97"
-                    }
-                ]
-            }
+    const ListFooterComponent = () => {
+        if(visiblePost.length !== userAndPost.length && !searchText){
+            return(
+                <ActivityIndicator size={40} color={"#e6a600"}/>
+            )
+        }else {
+            return null
+        }
     }
 
     return (
-        <FlatList data={urlToTest.AlbumData.photos} renderItem={({item}) => {
-            return (
-                <ViewGeneric key={item.id}>
-                    <Post
-                        userMail={dataToTest.userMail}
-                        userName={dataToTest.userName}
-                        post={{title: item.title, body: item.title}}
-                        album={urlToTest}
-                    />
-                </ViewGeneric>
-            )
-        }}/>
+        <HomeContainer>
+            <FindInput
+                value={searchText}
+                onChangeText={(text: string) => setSearchText(text)}/>
+            {userAndPost.length > 0
+                ? (<FlatList
+                    showsVerticalScrollIndicator={false}
+                    style={{width: "93%"}}
+                    ListFooterComponent={ListFooterComponent}
+                    onEndReached={onEndReached}
+                    onEndReachedThreshold={0.1}
+                    data={visiblePost}
+                    renderItem={renderItem}/>)
+                : (<LoadingContainer>
+                    <ActivityIndicatorLoading size={60} color={"#e6a600"}></ActivityIndicatorLoading>
+                </LoadingContainer>)
+            }
+        </HomeContainer>
     )
 }
 

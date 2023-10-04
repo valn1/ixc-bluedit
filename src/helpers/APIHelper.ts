@@ -10,7 +10,7 @@ import {Alert} from "react-native";
  *
  * params: /posts/1/comments, /albums/1/photos, /users/1/albums, /users/1/todos, /users/1/posts
  *
- * https://jsonplaceholder.typicode.com/${route}/${params.key}
+ * https://jsonplaceholder.typicode.com/${route}${params.key}
  *
  * @param route
  * @param params
@@ -19,7 +19,7 @@ import {Alert} from "react-native";
 export const get = async (route:string, params?:Record<string,string>): Promise<any>=> {
     try {
         if(params){
-            const resp: Response = await fetch(`https://jsonplaceholder.typicode.com/${route}/${params.key}`);
+            const resp: Response = await fetch(`https://jsonplaceholder.typicode.com/${route}${params.key}`);
             return await resp.json();
         }else {
             const resp: Response = await fetch(`https://jsonplaceholder.typicode.com/${route}`);

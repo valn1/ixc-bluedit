@@ -1,27 +1,25 @@
 import styled from "styled-components/native";
 import {Avatar} from "@rneui/base";
-export const  PostContainer = styled.View`
-  width: 93%;
+
+export const PostContainer = styled.View`
   margin-top: 20px;
   background-color: #190049;
   border-radius: 60px;
   margin-bottom: 20px;
-
 `;
 
-
-export const PostHeaderView = styled.View` 
+export const PostHeaderView = styled.View`
   height: 70px;
   border-top-left-radius: 60px;
   border-top-right-radius: 60px;
   align-items: flex-end;
   flex-direction: row;
 `;
-export const ViewBoddyPost = styled.View` 
-  height: 100px;
+export const ViewBoddyPost = styled.View`
+  height: 150px;
 
 `;
-export const PostCommentView = styled.View` 
+export const PostCommentView = styled.View`
   height: 30px;
   justify-content: flex-end;
   margin-right: 40px;
@@ -29,24 +27,24 @@ export const PostCommentView = styled.View`
   margin-bottom: 15px;
 `;
 
-export const AvatarImage = styled(Avatar)` 
+export const AvatarImage = styled(Avatar)`
   height: 55px;
   width: 55px;
   margin-left: 13px;
 `;
 
-export const TextUserName = styled.Text` 
+export const TextUserName = styled.Text`
   color: #ffffff;
   font-size: 15px;
   margin-left: 5px;
   margin-bottom: 5px;
 `;
-export const TitleView = styled.View` 
-    
+export const TitleView = styled.View`
+
 `;
 
-export const ContentView = styled.View` 
-    
+export const ContentView = styled.View`
+
 `;
 export const TitleText = styled.Text`
   font-size: 20px;
@@ -54,18 +52,20 @@ export const TitleText = styled.Text`
   margin: 10px 15px 6px;
 
 `;
-export const ContentText = styled.Text` 
+export const ContentText = styled.Text`
   font-size: 15px;
   color: white;
   margin-left: 23px;
   margin-right: 23px;
-` ;
+`;
 
-export const CommentAmount = styled.Text` 
+export const CommentAmount = styled.Text`
   color: white;
   font-size: 15px;
   margin-right: 5px;
 `;
+
+
 
 
 

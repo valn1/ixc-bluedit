@@ -1,8 +1,11 @@
 import {Album} from "../Carrousel/interface";
 
 export interface PostData {
-    userMail?: string,
-    userName?: string,
+    userData?: {
+        userId?: number
+        userMail?: string,
+        userName?: string,
+    },
     post?: {
         userId?: number,
         id?: number,
