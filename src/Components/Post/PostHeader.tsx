@@ -10,6 +10,7 @@ const PostHeader: React.FC<PostData>= ({userData}) => {
     return(
         <PostHeaderView>
             <AvatarImage
+                key={hash}
                 size={55}
                 rounded
                 source={{uri: `https://www.gravatar.com/avatar/${hash}`}}

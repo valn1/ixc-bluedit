@@ -3,12 +3,13 @@ export interface Album{
         userId?: number,
         id?: number,
         title?: string,
-        photos?: {
+        photos: {
             albumId?: number,
             id?: number,
             title?: string,
             url?: string,
             thumbnailUrl?: string
-        }
+        }[]
     }
+    Index?: number
 }

@@ -5,19 +5,25 @@ export const Photo = styled.Image`
   width: 80%;
 `;
 
-export const dotStyle = (dotColor: string) => {
-    return({
-        backgroundColor: dotColor,
-        width: 10,
-        height: 10,
-        borderRadius: 5,
-        marginLeft: 5,
-        marginRight: 5,
-        marginTop: 3,
-        marginBottom: 3,})
-}
 export const ImageContainer = styled.View`
   height: 290px;
   align-items: center;
   justify-content: center;
+  flex-direction: row;
 `
+export const DotContainer = styled.View` 
+  height: 30px;
+  width: 30%;
+  margin-right: 35%;
+  margin-left: 35%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+export const BorderDot = styled.View`
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: #ffffff;
+`
+

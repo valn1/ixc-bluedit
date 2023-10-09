@@ -6,6 +6,7 @@ export const PostContainer = styled.View`
   background-color: #190049;
   border-radius: 60px;
   margin-bottom: 20px;
+  
 `;
 
 export const PostHeaderView = styled.View`
@@ -16,8 +17,8 @@ export const PostHeaderView = styled.View`
   flex-direction: row;
 `;
 export const ViewBoddyPost = styled.View`
-  height: 150px;
-
+  flex: 1;
+  margin-bottom: 15px;
 `;
 export const PostCommentView = styled.View`
   height: 30px;
@@ -40,11 +41,9 @@ export const TextUserName = styled.Text`
   margin-bottom: 5px;
 `;
 export const TitleView = styled.View`
-
 `;
 
 export const ContentView = styled.View`
-
 `;
 export const TitleText = styled.Text`
   font-size: 20px;
@@ -62,8 +61,11 @@ export const ContentText = styled.Text`
 export const CommentAmount = styled.Text`
   color: white;
   font-size: 15px;
-  margin-right: 5px;
+  margin-right: 7px;
+  margin-top: 3px;
 `;
+
+
 
 
 
