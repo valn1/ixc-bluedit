@@ -6,7 +6,7 @@ export const PostContainer = styled.View`
   background-color: #190049;
   border-radius: 60px;
   margin-bottom: 20px;
-  
+
 `;
 
 export const PostHeaderView = styled.View`
@@ -65,11 +65,89 @@ export const CommentAmount = styled.Text`
   margin-top: 3px;
 `;
 
+export const CommentsContainer = styled.View`
+  flex: 1;
+  background-color: #120038;
+  align-items: center;
+`;
 
+export const HeaderCommentsModalView = styled.View`
+  flex-direction: row;
+  width: 100%;
+  height: 90px;
+  background-color: #0b0224;
+  align-items: center;
+`;
 
+export const CommentTitle = styled.Text`
+  color: white;
+  font-size: 18px;
+  flex: 1;
+  text-align: center;
+  margin-right: 50px;
+`;
 
+export const ExitButton = styled.TouchableOpacity`
+  margin-left: 20px;
+`;
 
+export const CommentView = styled.View`
+  margin-top: 20px;
+  background-color: #190049;
+  border-radius: 60px;
+  margin-bottom: 20px;
+`;
 
+export const HeaderComment = styled.View`
+  height: 70px;
+  border-top-left-radius: 60px;
+  border-top-right-radius: 60px;
+  align-items: flex-end;
+  flex-direction: row;
+`;
 
+export const BodyComment = styled.View`
+  flex: 1;
+  margin-bottom: 17px;
+  justify-content: center;
+  margin-left: 35px;
+`;
 
+export const ButtonShowMore = styled.TouchableOpacity`
+  flex: 1;
+  align-items: flex-end;
+  margin-right: 40px;
+`;
+export const TextButton = styled.Text`
+  color: blue;
+  font-size: 15px;
+`;
+export const BodyCommentSeeMore = styled.View`
+  margin-bottom: 17px;
+  justify-content: center;
+  margin-left: 35px;
+  flex: 1;
+`;
+export const CommentText = styled.Text`
+  color: white;
+  font-size: 15px;
+`;
 
+export const InputCommentView = styled.View`
+  height: 80px;
+  width: 100%;
+  background-color: #120038;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+`;
+
+export const InputComment = styled.TextInput`
+  color: white;
+  font-size: 18px;
+  height: 50px;
+  background-color: #1c0055;
+  width: 85%;
+  border-radius: 20px;
+  margin-right: 15px;
+`;

@@ -6,6 +6,9 @@ import {Text, View} from "react-native";
 import Dots from "react-native-dots-pagination";
 
 const Carrousel: React.FC<Album> = ({AlbumData}) => {
+    // console.log("atualizado Carrousel");
+
+
     const StylesButon = (valor: string) => <Text style={{fontSize: 80, color: 'white'}}>{valor}</Text>
     const [currentIndex, setCurrentIndex] = useState(0);
     const [direction, setDirection] = useState('');
@@ -110,6 +113,8 @@ const Carrousel: React.FC<Album> = ({AlbumData}) => {
                 paginationStyle={{bottom: -25}}
                 height={290}
                 key={AlbumData.id}
+                loadMinimal={true}
+                loadMinimalSize={3}
             >
                 {AlbumData.photos.map((item, index) => (
                     <ImageContainer key={index}>

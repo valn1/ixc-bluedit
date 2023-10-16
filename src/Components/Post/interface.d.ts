@@ -19,5 +19,5 @@ export interface PostData {
             body: string
         }[]
     },
-    album?: Album
+    album?: Album,
 }
