@@ -11,12 +11,12 @@ import {
     SendCommentButton
 } from './styles'
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {Modal, TouchableOpacity, TouchableWithoutFeedback} from "react-native";
+import {Modal, TouchableOpacity} from "react-native";
 import {PostData} from "./interface";
 import {postComment} from "../../helpers/APIHelper";
 import {RenderComments} from "./RenderComments";
 
-const PostComment: React.FC<PostData> = ({post, userData, album}) => {
+const PostComment: React.FC<PostData> = ({post, userData}) => {
     const [showComments, setShowComments] = useState(false)
     const [comment, setComment] = useState('');
     const [sendButton, setSendButton] = useState(true);

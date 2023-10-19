@@ -1,4 +1,4 @@
-import React, {JSX, useCallback, useEffect, useMemo, useState} from "react";
+import React, {JSX, useEffect, useState} from "react";
 import {HomeContainer} from "./Styles";
 import {Post} from "../../Components/Post";
 import {FindInput} from "../../Components/FindInput";

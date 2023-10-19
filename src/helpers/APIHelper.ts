@@ -58,7 +58,6 @@ export const deleteItem = async (route: string, id: number): Promise<void> => {
 
 /**
  *Function post
- * @param commentValue
  * @param postValue
  * @param route
  */
