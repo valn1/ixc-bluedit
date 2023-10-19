@@ -8,10 +8,6 @@ import {ActivityIndicatorLoading, LoadingContainer} from "./Styles";
 import {getUsersAndPosts} from "../../helpers/APIHelperData";
 
 const Home: React.FC = () => {
-
-    console.log("Home atualizando");
-
-
     const [userAndPost, setUserAndPost] = useState<PostData[]>([]);
     const [visiblePost, setVisiblePost] = useState<PostData[]>([]);
     const [originalPosts, setOriginalPosts] = useState<PostData[]>([]); // Novo estado para os posts originais
@@ -46,16 +42,16 @@ const Home: React.FC = () => {
             );
         }
     }, [searchText]);
-    const renderItem: ListRenderItem<PostData> | null | undefined =  ({item}): JSX.Element => {
-        return (
-            <Post
-                key={Math.random()}
-                userData={item.userData}
-                post={item.post}
-                album={item.album}
-            />
-        )
-    }
+
+    const renderItem: ListRenderItem<PostData> | null | undefined = ({item, index}): JSX.Element => (
+        <Post
+            key={index + Math.PI}
+            userData={item.userData}
+            post={item.post}
+            album={item.album}
+        />
+    )
+
 
     const onEndReached = () => {
         if (howPostsIsVisible < userAndPost.length && !searchText) {
@@ -81,7 +77,8 @@ const Home: React.FC = () => {
                 onChangeText={(text: string) => setSearchText(text)}/>
             {userAndPost.length > 0
                 ? (<FlatList
-                    keyExtractor={(item, index) => index.toString()}
+                    initialNumToRender={5}
+                    keyExtractor={(item, index) => `${item.userData?.userId}-${index}-${item.post?.id || item.album?.AlbumData.id}`}
                     showsVerticalScrollIndicator={false}
                     style={{width: "93%"}}
                     ListFooterComponent={ListFooterComponent}

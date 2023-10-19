@@ -12,7 +12,7 @@ export interface PostData {
         title?: string,
         body?: string
         comments?: {
-            postId: number,
+            postId?: number,
             id: number,
             name: string,
             email: string,
@@ -20,4 +20,10 @@ export interface PostData {
         }[]
     },
     album?: Album,
+}
+
+export interface CommentsData{
+    email: string
+    body: string
+    id: number
 }

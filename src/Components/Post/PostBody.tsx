@@ -4,7 +4,7 @@ import {PostData} from "./interface";
 
 const PostBody: React.FC<PostData> = ({post}) => {
     return(
-        <ViewBoddyPost>
+        <ViewBoddyPost key={`${post?.body}-${post?.title}`}>
             <TitleView>
                 <TitleText>{post?.title}</TitleText>
             </TitleView>

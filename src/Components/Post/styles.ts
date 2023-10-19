@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 import {Avatar} from "@rneui/base";
 
-export const PostContainer = styled.View`
+export const PostContainer = styled.KeyboardAvoidingView`
   margin-top: 20px;
   background-color: #190049;
   border-radius: 60px;
@@ -20,7 +20,7 @@ export const ViewBoddyPost = styled.View`
   flex: 1;
   margin-bottom: 15px;
 `;
-export const PostCommentView = styled.View`
+export const PostCommentView = styled.KeyboardAvoidingView`
   height: 30px;
   justify-content: flex-end;
   margin-right: 40px;
@@ -65,7 +65,7 @@ export const CommentAmount = styled.Text`
   margin-top: 3px;
 `;
 
-export const CommentsContainer = styled.View`
+export const CommentsContainer = styled.KeyboardAvoidingView`
   flex: 1;
   background-color: #120038;
   align-items: center;
@@ -108,15 +108,22 @@ export const HeaderComment = styled.View`
 
 export const BodyComment = styled.View`
   flex: 1;
-  margin-bottom: 17px;
   justify-content: center;
   margin-left: 35px;
+`;
+
+export const LittleBodyComment = styled.View`
+  height: 50px;
+  justify-content: center;
+  margin-left: 35px;
+  margin-bottom: 17px;
 `;
 
 export const ButtonShowMore = styled.TouchableOpacity`
   flex: 1;
   align-items: flex-end;
   margin-right: 40px;
+  margin-bottom: 20px;
 `;
 export const TextButton = styled.Text`
   color: blue;
@@ -131,6 +138,8 @@ export const BodyCommentSeeMore = styled.View`
 export const CommentText = styled.Text`
   color: white;
   font-size: 15px;
+  margin-right: 20px;
+  margin-top: 5px;
 `;
 
 export const InputCommentView = styled.View`
@@ -149,5 +158,14 @@ export const InputComment = styled.TextInput`
   background-color: #1c0055;
   width: 85%;
   border-radius: 20px;
-  margin-right: 15px;
+  margin-right: 5px;
+`;
+
+
+export const SendCommentButton = styled.TouchableOpacity` 
+  height: 45px;
+  width: 45px;
+  align-items: center;
+  justify-content: center;
+  background-color: blueviolet;
 `;

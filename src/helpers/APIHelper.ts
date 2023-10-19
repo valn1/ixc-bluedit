@@ -58,10 +58,13 @@ export const deleteItem = async (route: string, id: number): Promise<void> => {
 
 /**
  *Function post
+ * @param commentValue
  * @param postValue
  * @param route
  */
-export const post = async (postValue: {title: string ,body: string, userId: number}, route?: string | "posts"): Promise<void> => {
+export const postPost = async (
+    postValue: {title: string ,body: string, userId: number},
+    route?: string | "posts"): Promise<void> => {
     if (postValue) {
         try {
              await fetch(`https://jsonplaceholder.typicode.com/${route}`, {
@@ -77,6 +80,26 @@ export const post = async (postValue: {title: string ,body: string, userId: numb
         }
     } else {
         Alert.alert("Ocorreu um Erro", "Preencha todos os campos");
+    }
+}
+export const postComment = async (
+    commentValue: {email?: string, body: string, postId?: number, name: string},
+    route?: string | "comments"): Promise<void> => {
+    if (commentValue.body) {
+        try {
+             await fetch(`https://jsonplaceholder.typicode.com/${route}`, {
+                method: 'POST',
+                body: JSON.stringify(commentValue),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+        } catch (err) {
+            console.log(err);
+            Alert.alert("Ocorreu um Erro", "Não foi possivel fazer o comentario, tente novamente mais tarde");
+        }
+    } else {
+        Alert.alert("Ocorreu um Erro", "Preencha o campo de comentários");
     }
 }
 

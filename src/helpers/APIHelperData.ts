@@ -43,9 +43,9 @@ export const getUsersAndPosts = async (): Promise<PostData[]> => {
     let setAlbum = 0;
     /*aqui então eu faço a ligação dos usuarios com os albuns*/
     users.map((item: any) => {
-        while (albumAndPhotos.length < albuns.length && item.id === albuns[setAlbum].userId){
+        while (albumAndPhotos.length < albuns.length && item.id === albuns[setAlbum].userId) {
             albumAndPhotos.push({
-                userData:{
+                userData: {
                     userId: item.id,
                     userMail: item.email,
                     userName: item.username,
@@ -65,8 +65,8 @@ export const getUsersAndPosts = async (): Promise<PostData[]> => {
     * do while para ficar mais facil de entender*/
     const photos = await get("photos");
     let setPhoto = 0
-    albumAndPhotos.map((item) =>{
-        while (setPhoto< photos.length && item.album?.AlbumData.id === photos[setPhoto].albumId){
+    albumAndPhotos.map((item) => {
+        while (setPhoto < photos.length && item.album?.AlbumData.id === photos[setPhoto].albumId) {
             item.album?.AlbumData.photos.push({...photos[setPhoto]})
             setPhoto = setPhoto + 1;
         }
@@ -76,11 +76,10 @@ export const getUsersAndPosts = async (): Promise<PostData[]> => {
     let count = 4;
     const lengthByUserAndPost = userAndPost.length;
     /*por fim eu faço um for, onde a cada 5 posições do array userAndPost eu vou adicionar um album aleatorio*/
-    for(let i = 0; i< 20% lengthByUserAndPost; i++){
+    for (let i = 0; i < 20 % lengthByUserAndPost; i++) {
         let aleatoryAlbum = Math.floor(Math.random() * albuns.length)
         userAndPost.splice(count, 0, albumAndPhotos[aleatoryAlbum]);
-        count = count+5;
+        count = count + 5;
     }
-
     return userAndPost
 }
