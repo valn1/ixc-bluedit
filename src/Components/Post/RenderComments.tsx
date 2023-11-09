@@ -14,6 +14,7 @@ const RenderComments: React.FC<PostData> = ({post}) => {
 
     return(
         <FlatList
+            keyboardShouldPersistTaps='handled'
             keyExtractor={(item, index) => `${item.email}-${index.toString()}`}
             showsVerticalScrollIndicator={false}
             style={{width: "93%"}}

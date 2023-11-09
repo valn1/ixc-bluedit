@@ -4,16 +4,29 @@ import Home from "../Screens/Home";
 import Perfil from "../Screens/Perfil";
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {itemOptions, screenOptions} from "./options";
+import {itemOptions, screenOptions, stackOptions} from "./options";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {CameraModal} from "../Components/CreatePost/CameraModal";
 
 
-const Tab = createBottomTabNavigator()
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+const ScreenCriar = () => {
+    return(
+        <Stack.Navigator initialRouteName={"ScreenCriar"} screenOptions={stackOptions}>
+            <Stack.Screen name={"ScreenCriar"} component={Criar}></Stack.Screen>
+            <Stack.Screen name={"TakePhoto"} component={CameraModal}></Stack.Screen>
+        </Stack.Navigator>
+    )
+}
+
 const TabNavigator = () => {
     return (
         <NavigationContainer>
-            <Tab.Navigator initialRouteName='Home' screenOptions={screenOptions}>
+            <Tab.Navigator initialRouteName='Perfil' screenOptions={screenOptions}>
                 <Tab.Screen name='Início' component={Home} options={itemOptions}/>
-                <Tab.Screen name='Criar' component={Criar} options={itemOptions}/>
+                <Tab.Screen name='Criar' component={ScreenCriar} options={itemOptions}/>
                 <Tab.Screen name="Perfil" component={Perfil} options={itemOptions}/>
             </Tab.Navigator>
         </NavigationContainer>

@@ -12,7 +12,7 @@ export const InputContainer = styled.View`
 export const InputBoxContainer = styled.View`
   width: 92%;
   height: 45px;
-  background-color: #190049;
+  background-color: ${props => props.theme.colors.backgound};
   border-radius: 18px;
   flex-direction: row;
   align-items: center;
@@ -27,13 +27,13 @@ export const LupaIcon = styled(Icon)`
 
 export const TextInputFind = styled.TextInput` 
   flex: 1;
-  color: white;
+  color: ${props => props.theme.colors.text};
   font-size: 18px;
 `;
 
 export const Text = styled.Text`
   font-size: 18px;
-  color: white;
+  color: ${props => props.theme.colors.text};
   margin-left: 15px;
   margin-bottom: 3px;
 `;

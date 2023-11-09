@@ -102,6 +102,58 @@ export const postComment = async (
     }
 }
 
+export const postPhoto = async (
+    photoData: {
+        albumId?: number,
+        id?: number,
+        title?: string,
+        url?: string,
+        thumbnailUrl?: string
+    },
+    route?: string | "photos"): Promise<void> => {
+    if (photoData.url) {
+        try {
+             await fetch(`https://jsonplaceholder.typicode.com/${route}`, {
+                method: 'POST',
+                body: JSON.stringify(photoData),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+        } catch (err) {
+            console.log(err);
+            Alert.alert("Ocorreu um Erro", "Não foi possivel postar a(s) foto(s), tente novamente mais tarde");
+        }
+    } else {
+        Alert.alert("Ocorreu um Erro", "Preencha o campo de comentários");
+    }
+}
+
+export const postAlbum = async (
+    albumData: {
+        userId: number,
+        id: number,
+        title: string
+    },
+    route?: string | "albums"): Promise<void> => {
+    if (albumData.title) {
+        try {
+             await fetch(`https://jsonplaceholder.typicode.com/${route}`, {
+                method: 'POST',
+                body: JSON.stringify(albumData),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+        } catch (err) {
+            console.log(err);
+            Alert.alert("Ocorreu um Erro", "Não foi possivel criar o album, tente novamente mais tarde");
+        }
+    } else {
+        Alert.alert("Ocorreu um Erro", "Preencha o campo de comentários");
+    }
+}
+
 //--------------------------------------------------------------------------------------------
 //Metodo Put
 //--------------------------------------------------------------------------------------------

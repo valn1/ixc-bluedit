@@ -24,6 +24,6 @@ export const BorderDot = styled.View`
   width: 8px;
   height: 8px;
   border-radius: 4px;
-  background-color: #ffffff;
+  background-color: ${props => props.theme.colors.text};
 `
 

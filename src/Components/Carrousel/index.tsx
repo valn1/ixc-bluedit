@@ -1,15 +1,20 @@
-import React, {useRef, useState} from "react";
+import React, {useContext, useRef, useState} from "react";
 import {Photo, ImageContainer, DotContainer, BorderDot} from './styles'
 import {Album} from "./interface";
 import Swiper from 'react-native-swiper'
 import {Text, View} from "react-native";
 import Dots from "react-native-dots-pagination";
+import {AppContext} from "../../App";
+import {useTheme} from "styled-components";
 
 const Carrousel: React.FC<Album> = ({AlbumData}) => {
-    const StylesButon = (valor: string) => <Text style={{fontSize: 80, color: 'white'}}>{valor}</Text>
+    const theme = useTheme()
+    const {state} = useContext(AppContext);
+    const StylesButon = (valor: string) => <Text style={{fontSize: 80, color: theme.colors.text}}>{valor}</Text>
     const [currentIndex, setCurrentIndex] = useState(0);
     const [direction, setDirection] = useState('');
     const flatListRef = useRef(null)
+
 
     const handleIndexChanged = (index: number) => {
         setCurrentIndex(index);
@@ -33,7 +38,7 @@ const Carrousel: React.FC<Album> = ({AlbumData}) => {
                     passiveDotWidth={12}
                     passiveDotHeight={12}
                     marginHorizontal={5}
-                    passiveColor={"#fff"}
+                    passiveColor={theme.colors.text}
                 />
             )
         }
@@ -51,7 +56,7 @@ const Carrousel: React.FC<Album> = ({AlbumData}) => {
                             passiveDotWidth={12}
                             passiveDotHeight={12}
                             marginHorizontal={5}
-                            passiveColor={"#fff"}
+                            passiveColor={state.theme === "dark" ? 'white' : "black"}
                             width={77}
                             paddingHorizontal={5}
 
@@ -68,7 +73,7 @@ const Carrousel: React.FC<Album> = ({AlbumData}) => {
                             passiveDotWidth={12}
                             passiveDotHeight={12}
                             marginHorizontal={5}
-                            passiveColor={"#fff"}
+                            passiveColor={state.theme === "dark" ? 'white' : "black"}
                             width={104}
                         ></Dots>
                         <BorderDot></BorderDot>
@@ -88,7 +93,7 @@ const Carrousel: React.FC<Album> = ({AlbumData}) => {
                         passiveDotWidth={12}
                         passiveDotHeight={12}
                         marginHorizontal={5}
-                        passiveColor={"#fff"}
+                        passiveColor={state.theme === "dark" ? 'white' : "black"}
                     />
                 </DotContainer>
             )
@@ -98,6 +103,7 @@ const Carrousel: React.FC<Album> = ({AlbumData}) => {
     return (
         <View>
             <Swiper
+                keyboardShouldPersistTaps={"handled"}
                 ref={flatListRef}
                 horizontal={true}
                 showsButtons={true}
@@ -115,7 +121,8 @@ const Carrousel: React.FC<Album> = ({AlbumData}) => {
             >
                 {AlbumData.photos.map((item, index) => (
                     <ImageContainer key={index}>
-                        <Photo key={item.id} resizeMode="contain" source={{uri: item.url}}/>
+                        <Photo key={item.id} resizeMode="contain"
+                               source={{uri: item.url?.startsWith("/data") ? `file://${item.url}` : item.url}}/>
                     </ImageContainer>
                 ))}
             </Swiper>

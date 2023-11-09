@@ -15,7 +15,7 @@ import {
 import CryptoJS from "rn-crypto-js"
 
 
-const CommentBody: React.FC<CommentsData> = ({body, email, id}) => {
+const   CommentBody: React.FC<CommentsData> = ({body, email, id}) => {
 
     const [showMore, setShowMore] = useState(false);
     const onPress = () => {

@@ -14,6 +14,7 @@ const Home: React.FC = () => {
     const [howPostsIsVisible, setHowPostsIsVisible] = useState(20);
     const [searchText, setSearchText] = useState('');
 
+
     useEffect(() => {
         const getDataToPosts = async () => {
             const allPosts = await getUsersAndPosts();
@@ -43,14 +44,16 @@ const Home: React.FC = () => {
         }
     }, [searchText]);
 
-    const renderItem: ListRenderItem<PostData> | null | undefined = ({item, index}): JSX.Element => (
-        <Post
-            key={index + Math.PI}
-            userData={item.userData}
-            post={item.post}
-            album={item.album}
-        />
-    )
+    const renderItem: ListRenderItem<PostData> | null | undefined = ({item, index}): JSX.Element => {
+        return (
+            <Post
+                key={index + Math.PI}
+                userData={item.userData}
+                post={item.post}
+                album={item.album}
+            />
+        )
+    }
 
 
     const onEndReached = () => {
@@ -70,6 +73,7 @@ const Home: React.FC = () => {
         }
     }
 
+
     return (
         <HomeContainer>
             <FindInput
@@ -77,6 +81,7 @@ const Home: React.FC = () => {
                 onChangeText={(text: string) => setSearchText(text)}/>
             {userAndPost.length > 0
                 ? (<FlatList
+                    keyboardShouldPersistTaps={"handled"}
                     initialNumToRender={5}
                     keyExtractor={(item, index) => `${item.userData?.userId}-${index}-${item.post?.id || item.album?.AlbumData.id}`}
                     showsVerticalScrollIndicator={false}

@@ -1,11 +1,11 @@
 import React from "react";
-import {Text} from "react-native";
 import {ViewGeneric} from "./Styles";
+import {UserProfile} from "../../Components/UserProfile";
 
 const Perfil: React.FC = () => {
     return(
         <ViewGeneric>
-            <Text>Perfil</Text>
+            <UserProfile></UserProfile>
         </ViewGeneric>
     )
 }

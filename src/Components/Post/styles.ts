@@ -3,7 +3,7 @@ import {Avatar} from "@rneui/base";
 
 export const PostContainer = styled.KeyboardAvoidingView`
   margin-top: 20px;
-  background-color: #190049;
+  background-color: ${props => props.theme.colors.primary};
   border-radius: 60px;
   margin-bottom: 20px;
 
@@ -35,7 +35,7 @@ export const AvatarImage = styled(Avatar)`
 `;
 
 export const TextUserName = styled.Text`
-  color: #ffffff;
+  color: ${props => props.theme.colors.text};
   font-size: 15px;
   margin-left: 5px;
   margin-bottom: 5px;
@@ -47,19 +47,19 @@ export const ContentView = styled.View`
 `;
 export const TitleText = styled.Text`
   font-size: 20px;
-  color: white;
+  color: ${props => props.theme.colors.text};
   margin: 10px 15px 6px;
 
 `;
 export const ContentText = styled.Text`
   font-size: 15px;
-  color: white;
+  color: ${props => props.theme.colors.text};
   margin-left: 23px;
   margin-right: 23px;
 `;
 
 export const CommentAmount = styled.Text`
-  color: white;
+  color: ${props => props.theme.colors.text};
   font-size: 15px;
   margin-right: 7px;
   margin-top: 3px;
@@ -67,7 +67,7 @@ export const CommentAmount = styled.Text`
 
 export const CommentsContainer = styled.KeyboardAvoidingView`
   flex: 1;
-  background-color: #120038;
+  background-color: ${props => props.theme.colors.backgound};
   align-items: center;
 `;
 
@@ -93,7 +93,7 @@ export const ExitButton = styled.TouchableOpacity`
 
 export const CommentView = styled.View`
   margin-top: 20px;
-  background-color: #190049;
+  background-color: ${props => props.theme.colors.primary};
   border-radius: 60px;
   margin-bottom: 20px;
 `;
@@ -129,14 +129,8 @@ export const TextButton = styled.Text`
   color: blue;
   font-size: 15px;
 `;
-export const BodyCommentSeeMore = styled.View`
-  margin-bottom: 17px;
-  justify-content: center;
-  margin-left: 35px;
-  flex: 1;
-`;
 export const CommentText = styled.Text`
-  color: white;
+  color: ${props => props.theme.colors.text};
   font-size: 15px;
   margin-right: 20px;
   margin-top: 5px;
@@ -145,17 +139,17 @@ export const CommentText = styled.Text`
 export const InputCommentView = styled.View`
   height: 80px;
   width: 100%;
-  background-color: #120038;
+  background-color: ${props => props.theme.colors.backgound};
   justify-content: center;
   align-items: center;
   flex-direction: row;
 `;
 
 export const InputComment = styled.TextInput`
-  color: white;
+  color: ${props => props.theme.colors.text};
   font-size: 18px;
   height: 50px;
-  background-color: #1c0055;
+  background-color: ${props => props.theme.colors.primary};
   width: 85%;
   border-radius: 20px;
   margin-right: 5px;
@@ -167,5 +161,4 @@ export const SendCommentButton = styled.TouchableOpacity`
   width: 45px;
   align-items: center;
   justify-content: center;
-  background-color: blueviolet;
 `;
