@@ -8,6 +8,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const AppContext: React.Context<any> = createContext('');
 
+
+
+
 const App: React.FC = () => {
     const [state, dispatch] = useReducer(reducer, inicialAppState)
     const [theme, setTheme] = useState(dark);

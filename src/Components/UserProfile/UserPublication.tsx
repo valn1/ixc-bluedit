@@ -12,7 +12,7 @@ import {
     FlatList,
     ListRenderItem,
     View,
-    Animated
+    Animated, ActivityIndicator
 } from "react-native";
 import {AppContext} from "../../App";
 import {CommentBody} from "../Post/CommentBody";
@@ -29,6 +29,7 @@ const UserPublication: React.FC<AsyncPosts> = ({postagens, comentario}) => {
     const [commnts, setComments] = useState(false)
     const [albums, setAlbums] = useState(false)
     const [userName, setUserName] = useState('');
+    const [userPhoto, setUserPhoto] = useState('');
     const {state} = useContext(AppContext)
 
     useEffect(() => {
@@ -43,21 +44,19 @@ const UserPublication: React.FC<AsyncPosts> = ({postagens, comentario}) => {
 
     const hash = CryptoJS.MD5("alexandrebeilner10@gmail.com").toString();
 
-    const onPressPost = () => {
-        setPosts(true)
-        setAlbums(false)
-        setComments(false)
+    const IsLoading = () => {
+        return(
+            <View style={{flex: 1, alignItems: "center", justifyContent:"center"}}>
+                <ActivityIndicator color={"#e6a600"} size={"large"} ></ActivityIndicator>
+            </View>
+        )
     }
-    const onPressComment = () => {
-        setComments(true)
-        setPosts(false)
-        setAlbums(false)
+    const changeVisiblePost = (post: boolean, album: boolean, comment: boolean): void => {
+        setPosts(post)
+        setAlbums(album)
+        setComments(comment)
     }
-    const onPressAlbum = () => {
-        setAlbums(true)
-        setPosts(false)
-        setComments(false)
-    }
+
     const renderComentarios: ListRenderItem<any> | null | undefined = ({item, index}) => {
         return (
             <>
@@ -117,89 +116,74 @@ const UserPublication: React.FC<AsyncPosts> = ({postagens, comentario}) => {
             return null
         }
     }
-    const [userPhoto, setUserPhoto] = useState('');
+
 
     const H_MAX_HEIGHT = 375;
-    const H_MIN_HEIGHT = 175;
-    const H_SCROLL_DISTANCE = H_MAX_HEIGHT - H_MIN_HEIGHT;
-
     const scrollOffsetY = useRef(new Animated.Value(0)).current;
+    const dinamicSize = (max: number, min: number, distance: number) => {
+        return scrollOffsetY.interpolate({
+            inputRange: [0, distance],
+            outputRange: [max, min],
+            extrapolate: "clamp"
+        })
+    }
 
-    const headerScrollHeight = scrollOffsetY.interpolate({
-        inputRange: [0, H_SCROLL_DISTANCE],
-        outputRange: [H_MAX_HEIGHT, H_MIN_HEIGHT],
-        extrapolate: 'clamp'
-    })
-    const imageScale = scrollOffsetY.interpolate({
-        inputRange: [0, 230],
-        outputRange: [140, 70],
-        extrapolate: 'clamp'
-    })
-    const textSize = scrollOffsetY.interpolate({
-        inputRange: [0, 150],
-        outputRange: [30, 15],
-        extrapolate: 'clamp'
-    })
+    const PostCommentAlbum = (data: any, renderItem: any) => {
+        return(
+            <FlatList
+                data={data}
+                renderItem={renderItem}
+                keyExtractor={(item, index) => `${index}`}
+                onScroll={Animated.event([
+                    {nativeEvent: {contentOffset: {y: scrollOffsetY}}},
+                ], {useNativeDriver: false})}
+                scrollEventThrottle={16}
+                contentContainerStyle={{paddingTop: H_MAX_HEIGHT}}
+            />
+        )
+    }
+
 
     return (
         <View style={{flex: 1}}>
-            <UpsideContainer style={{height: headerScrollHeight}}>
+            <UpsideContainer style={{height: dinamicSize(375, 175, 200)}}>
                 <View style={{flexDirection: "row", justifyContent: "space-between", flex: 1}}>
                     <View style={{justifyContent: "center"}}>
-                        <ImageView style={{height: imageScale, width: imageScale}}>
+                        <ImageView
+                            style={{
+                                height: dinamicSize(140,70,230),
+                                width: dinamicSize(140,70,230)}}>
                             <UserImageProfile
                                 source={{uri: userPhoto ? userPhoto : `https://www.gravatar.com/avatar/${hash}`}}
                                 resizeMode={"cover"}/>
                         </ImageView>
-                        <UserNameText style={{fontSize: textSize}}>{userName ? userName : "Xandão"}</UserNameText>
+                        <UserNameText style={{fontSize: dinamicSize(30,15,150)}}>{userName ? userName : "Xandão"}</UserNameText>
                     </View>
                     <ConfigOptions></ConfigOptions>
                 </View>
                 <ViewHeaderOptions>
-                    <HeaderButtons onPress={onPressPost} name={"Publicações"} color={posts ? "#cb9412" : "#91a9d0"}/>
-                    <HeaderButtons onPress={onPressComment} name={"Comentários"}
-                                   color={commnts ? "#cb9412" : "#91a9d0"}/>
-                    <HeaderButtons onPress={onPressAlbum} name={"Álbums"} color={albums ? "#cb9412" : "#91a9d0"}/>
+                    <HeaderButtons
+                        onPress={() => changeVisiblePost(true, false, false)}
+                        name={"Publicações"}
+                        color={posts}/>
+                    <HeaderButtons
+                        onPress={() => changeVisiblePost(false, false, true)}
+                        name={"Comentários"}
+                        color={commnts}/>
+                    <HeaderButtons
+                        onPress={() => changeVisiblePost(false, true, false)}
+                        name={"Álbums"}
+                        color={albums}/>
                 </ViewHeaderOptions>
             </UpsideContainer>
-            <PublicationsContainer>
-                {posts &&
-                    <FlatList
-                        data={postagens}
-                        renderItem={renderPublicacao}
-                        keyExtractor={(item, index) => index + item.title}
-                        onScroll={Animated.event([
-                            {nativeEvent: {contentOffset: {y: scrollOffsetY}}},
-                        ], {useNativeDriver: false})}
-                        scrollEventThrottle={16}
-                        contentContainerStyle={{paddingTop: H_MAX_HEIGHT}}
-                    />
-                }
-                {commnts &&
-                    <FlatList
-                        keyExtractor={(item, index) => index + item.body}
-                        data={comentario}
-                        renderItem={renderComentarios}
-                        onScroll={Animated.event([
-                            {nativeEvent: {contentOffset: {y: scrollOffsetY}}},
-                        ], {useNativeDriver: false})}
-                        scrollEventThrottle={16}
-                        contentContainerStyle={{paddingTop: H_MAX_HEIGHT}}
-                    />
-                }
-                {albums &&
-                    <FlatList
-                        data={postagens}
-                        renderItem={renderAlbum}
-                        keyExtractor={(item, index) => index + item.title}
-                        onScroll={Animated.event([
-                            {nativeEvent: {contentOffset: {y: scrollOffsetY}}},
-                        ], {useNativeDriver: false})}
-                        scrollEventThrottle={16}
-                        contentContainerStyle={{paddingTop: H_MAX_HEIGHT}}
-                    />
-                }
-            </PublicationsContainer>
+            {postagens.length === 0
+                ? <IsLoading></IsLoading>
+                : <PublicationsContainer>
+                    {posts && PostCommentAlbum(postagens, renderPublicacao)}
+                    {commnts && PostCommentAlbum(comentario, renderComentarios)}
+                    {albums && PostCommentAlbum(postagens, renderAlbum)}
+                </PublicationsContainer>
+            }
         </View>
     )
 }

@@ -24,7 +24,7 @@ const ScreenCriar = () => {
 const TabNavigator = () => {
     return (
         <NavigationContainer>
-            <Tab.Navigator initialRouteName='Perfil' screenOptions={screenOptions}>
+            <Tab.Navigator initialRouteName='Início' screenOptions={screenOptions}>
                 <Tab.Screen name='Início' component={Home} options={itemOptions}/>
                 <Tab.Screen name='Criar' component={ScreenCriar} options={itemOptions}/>
                 <Tab.Screen name="Perfil" component={Perfil} options={itemOptions}/>

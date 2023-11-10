@@ -1,6 +1,6 @@
 export interface ButtonProps {
     name: string
-    color: string
+    color: boolean
     onPress: () => void
 }
 

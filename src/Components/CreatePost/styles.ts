@@ -14,7 +14,7 @@ export const HeaderContainer = styled.View`
 `;
 
 export const HeaderText = styled.Text`
-  color: ${props => props.theme.colors.text};
+  color: white;
   font-size: 15px;
   margin-left: 50px;
 `;

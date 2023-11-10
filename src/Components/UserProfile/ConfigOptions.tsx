@@ -9,13 +9,15 @@ import {
     OptionsView,
 } from './styles'
 import Icon from "react-native-vector-icons/FontAwesome5";
-import {Modal} from "react-native";
+import {ActivityIndicator, Modal} from "react-native";
 import {AppContext} from "../../App";
 import {ChangePerfil} from "./ChangePerfil";
 import {ChangeTheme} from "./ChangeTheme";
 
 const ConfigOptions: React.FC = () => {
     const [isVisible, setIsVisible] = useState(false);
+    const [changeTheme, setChangeTheme] = useState(false)
+    const [changeName, setChangeName] = useState(false)
 
     const {state, dispatch} = useContext(AppContext)
 
@@ -30,23 +32,16 @@ const ConfigOptions: React.FC = () => {
                 <OptionsView>
                     <GenericOpacitiOptions
                         onPress={() => {
-                            dispatch({
-                                type: "CHANGE_NAME",
-                                payload: !state.perfilOptions.changeName
-                            })
+                            dispatch({type: "CHANGE_NAME"})
                             setIsVisible(false);
-                        }
-                        }
+                        }}
                         activeOpacity={0.5}>
                         <OptionIcon name={"at"}/>
                         <OptionsName>Alterar Dados do Perfil</OptionsName>
                     </GenericOpacitiOptions>
                     <GenericOpacitiOptions
                         onPress={() => {
-                            dispatch({
-                                type: "CHANGE_THEME",
-                                payload: !state.perfilOptions.changeTheme
-                            })
+                            dispatch({type: "CHANGE_THEME"})
                             setIsVisible(false);
                         }}
                         activeOpacity={0.5}>

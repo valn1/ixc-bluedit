@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "356080426733",
+    "project_id": "ixc-bluedit",
+    "storage_bucket": "ixc-bluedit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:356080426733:android:2fc02e1196668d7c4336e4",
+        "android_client_info": {
+          "package_name": "com.bluedit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAm8H8eSuEd2jb-HStLyeTLOJ22efCEI1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
