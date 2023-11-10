@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface ButtonProps {
     name: string
     color: boolean
@@ -28,3 +30,13 @@ export interface OptionButton{
     onPress?: () => {}
 }
 
+export interface Config{
+    onPress: () => void,
+    iconName: string,
+    placeholder: string,
+}
+
+export interface OptionsConfig{
+    state: boolean,
+    setState: React.Dispatch<React.SetStateAction<boolean>>,
+}

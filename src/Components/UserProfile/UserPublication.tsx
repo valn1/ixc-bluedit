@@ -22,7 +22,7 @@ import CryptoJS from "rn-crypto-js"
 import {ExcludeOption} from "./ExcludeOption";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {AsyncPosts} from "./interface";
-import {ConfigOptions} from "./ConfigOptions";
+import {AllConfigOptions} from "./AllConfigOptions";
 
 const UserPublication: React.FC<AsyncPosts> = ({postagens, comentario}) => {
     const [posts, setPosts] = useState(true)
@@ -38,9 +38,10 @@ const UserPublication: React.FC<AsyncPosts> = ({postagens, comentario}) => {
             setUserName(name as string)
             const photo = await AsyncStorage.getItem("UserPhoto");
             setUserPhoto(photo as string)
+
         }
         storeData();
-    }, [state.perfilOptions.changeName])
+    }, [state.update])
 
     const hash = CryptoJS.MD5("alexandrebeilner10@gmail.com").toString();
 
@@ -110,7 +111,6 @@ const UserPublication: React.FC<AsyncPosts> = ({postagens, comentario}) => {
                     ></Post>
                     <ExcludeOption id={item.id}></ExcludeOption>
                 </>
-
             )
         } else {
             return null
@@ -159,7 +159,7 @@ const UserPublication: React.FC<AsyncPosts> = ({postagens, comentario}) => {
                         </ImageView>
                         <UserNameText style={{fontSize: dinamicSize(30,15,150)}}>{userName ? userName : "Xandão"}</UserNameText>
                     </View>
-                    <ConfigOptions></ConfigOptions>
+                    <AllConfigOptions></AllConfigOptions>
                 </View>
                 <ViewHeaderOptions>
                     <HeaderButtons

@@ -246,3 +246,11 @@ export const ConfirmText = styled.Text`
   font-size: 18px;
   color: black;
 `;
+
+export const Loading = styled.View`
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+`;

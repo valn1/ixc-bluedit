@@ -5,11 +5,13 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import {AppContext} from "../../App";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {launchImageLibrary} from "react-native-image-picker";
+import {OptionsConfig} from "./interface";
 
-const ChangePerfil: React.FC = () => {
+const ChangePerfil: React.FC<OptionsConfig> = ({state, setState}) => {
     const [name, setName] = useState('')
     const [confirmName, setConfirmName] = useState('');
     const [image, setImage] = useState('');
+    const [activeButton, setActiveButton] = useState(false)
 
     const {dispatch} = useContext(AppContext);
 
@@ -24,13 +26,12 @@ const ChangePerfil: React.FC = () => {
 
 
     const changeName = async () => {
+        setActiveButton(true);
         if(name){
             if (name === confirmName) {
                 await AsyncStorage.setItem("UserName", name);
-                dispatch({
-                    type: "CHANGE_NAME",
-                    payload: false
-                })
+                dispatch({type: "UPDATE"})
+                setState(false)
             } else {
                 AlertName();
             }
@@ -40,15 +41,14 @@ const ChangePerfil: React.FC = () => {
             if(name && confirmName && confirmName !== name){
                 AlertName();
             }else {
-                dispatch({
-                    type: "CHANGE_NAME",
-                    payload: false
-                })
+                dispatch({type: "UPDATE"})
+                setState(false)
             }
         }
         if(!name && !confirmName && !image){
             Alert.alert("Erro", "Nenhum dado foi alterado");
         }
+        setActiveButton(false);
     }
 
     const openGallery = async (): Promise<void> => {
@@ -66,10 +66,7 @@ const ChangePerfil: React.FC = () => {
 
     return (
         <KeyboardAvoidingView style={{flex: 1}}>
-            <BackButton onPress={() => dispatch({
-                type: "CHANGE_NAME",
-                payload: false
-            })}>
+            <BackButton onPress={() => setState(false)}>
                 <Icon name={"times"} size={40} color={"black"}/>
             </BackButton>
             <GenericView>
@@ -104,7 +101,8 @@ const ChangePerfil: React.FC = () => {
             </GenericView>
             <GenericView style={{flex: 1}}>
                 <ConfirmButton
-                    activeOpacity={0.6}
+                    disabled={activeButton}
+                    activeOpacity={0.8}
                     onPress={changeName}
                 >
                     <Text style={{color: "white", fontSize: 25}}>Confirmar</Text>

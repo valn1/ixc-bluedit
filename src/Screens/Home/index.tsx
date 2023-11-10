@@ -12,7 +12,63 @@ const Home: React.FC = () => {
     const [visiblePost, setVisiblePost] = useState<PostData[]>([]);
     const [originalPosts, setOriginalPosts] = useState<PostData[]>([]); // Novo estado para os posts originais
     const [howPostsIsVisible, setHowPostsIsVisible] = useState(20);
+    const [inicialPostId, setInicialPostId] = useState(1);
     const [searchText, setSearchText] = useState('');
+
+
+    const [postTest, setPostTest] = useState<PostData[]>([])
+
+    const getPostPurId = async (id?: number) => {
+        const user: Response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+        const userJSON = await user.json();
+
+        const posts: Response = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${userJSON.id}`)
+        const postsJSON: object = await posts.json();
+
+        for(const post in postsJSON){
+            postTest.push({
+                userData: {
+                    userId: userJSON.id,
+                    userMail: userJSON.email,
+                    userName: userJSON.username,
+                },
+                post: {
+                    userId: post.userId,
+                    id: post.id,
+                    title: post.title,
+                    body: post.body,
+                    comments: [],
+                }
+            })
+        }
+
+        const allPostsFromUser = postsJSON.map((item: any, index: number) => {
+            return {
+                userId: item.userId,
+                id: item.id,
+                title: item.title,
+                body: item.body,
+                comments: [],
+            };
+        });
+        // console.log(allPostsFromUser);
+        // postTest.push({
+        //     userData: {
+        //         userId: userJSON.id,
+        //         userMail: userJSON.email,
+        //         userName: userJSON.username,
+        //     },
+        //     post: {
+        //         postBody: postsJSON,
+        //         comments: [],
+        //     }
+        // })
+        // console.log(postTest);
+    }
+
+    useEffect(() => {
+        getPostPurId(inicialPostId);
+    }, [])
 
 
     useEffect(() => {

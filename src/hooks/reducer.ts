@@ -14,7 +14,6 @@ const inicialAppState : AppState = {
         changeName: false,
         changeTheme: false
     },
-    theme: "dark",
     newPost: false
 }
 
@@ -48,12 +47,6 @@ const reducer = (state: AppState, action: any) => {
                     body: action.payload.body,
                     email: action.payload.email
                 }]
-            }
-        }
-        case "ASYNC_POST": {
-            return {
-                ...state,
-
             }
         }
         case "COMENTARIO": {
@@ -117,12 +110,6 @@ const reducer = (state: AppState, action: any) => {
                     changeTheme: !state.perfilOptions.changeTheme,
                     changeName: false
                 }
-            }
-        }
-        case "THEME": {
-            return {
-                ...state,
-                theme: action.payload
             }
         }
         default: {

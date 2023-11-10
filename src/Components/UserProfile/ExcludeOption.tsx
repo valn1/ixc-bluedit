@@ -5,10 +5,11 @@ import {ExcludeView, TrashButton, ButtonOptions, CloseModal} from "./styles"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {AppContext} from "../../App";
 import {ExcludePosts} from "./interface";
-
+import {useTheme} from "styled-components";
 const ExcludeOption: React.FC<ExcludePosts> = ({id}) => {
     const [isVisible, setIsVisible] = useState(false)
     const {dispatch} = useContext(AppContext)
+    const theme = useTheme()
 
     const excludePost = () => {
         const deleteItem = async () => {
@@ -42,7 +43,7 @@ const ExcludeOption: React.FC<ExcludePosts> = ({id}) => {
         <>
             <ButtonOptions
                 onPress={() => setIsVisible(!isVisible)}>
-                <Icon name={"ellipsis-v"} color={"white"} size={20}/>
+                <Icon name={"ellipsis-v"} color={theme.colors.text} size={20}/>
             </ButtonOptions>
             <Modal visible={isVisible} transparent={true} animationType={"slide"}>
                 <CloseModal
