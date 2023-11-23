@@ -14,7 +14,7 @@ const PostComment: React.FC<PostData> = ({post, userData}) => {
     const [showComments, setShowComments] = useState(false)
 
     return (
-        <PostCommentView key={`${post?.id}-${userData?.userName}`}>
+        <PostCommentView>
             <CommentAmount>{post?.comments?.length || "0"}</CommentAmount>
             <TouchableOpacity onPress={() => setShowComments(true)}>
                 <Icon name={"comment-outline"} size={30} color={theme.colors.text}/>

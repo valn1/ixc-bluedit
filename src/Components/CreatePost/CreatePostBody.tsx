@@ -19,7 +19,6 @@ import {GenericButton} from "./GenericButton";
 import {NavigationProp, useNavigation} from "@react-navigation/native";
 import {AppContext} from "../../App";
 import {
-    ActivityIndicator,
     Alert,
     FlatList,
     ListRenderItem,
@@ -31,7 +30,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import Icon from "react-native-vector-icons/FontAwesome5";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import uuid from "react-native-uuid";
-import {Loading} from "../UserProfile/styles";
+import {useTheme} from "styled-components";
 
 const CreatePostBody: React.FC = () => {
     const navigation: NavigationProp<any> = useNavigation();
@@ -40,17 +39,10 @@ const CreatePostBody: React.FC = () => {
     const [link, setLink] = useState("");
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
-    const [currentTheme, setCurrentTheme] = useState('');
 
     const {state, dispatch} = useContext(AppContext)
 
-    useEffect(() => {
-        const getTheme = async () => {
-            const theme = await AsyncStorage.getItem("themeConfig");
-            setCurrentTheme(theme as string)
-        }
-        getTheme();
-    }, [state.update])
+    const theme = useTheme();
 
     const takePhoto = () => {
         navigation.navigate("TakePhoto");
@@ -192,76 +184,67 @@ const CreatePostBody: React.FC = () => {
 
 
     return (
-        <>
-            {currentTheme
-                ? <BodyContainer>
-                    <ViewInput>
-                        <InputTitle
-                            value={title}
-                            onChangeText={(text) => setTitle(text)}
-                            placeholder={"Título"}
-                            placeholderTextColor={currentTheme === "dark"? 'white': "#190049"}></InputTitle>
-                        <InputText
-                            multiline={true}
-                            numberOfLines={3}
-                            value={body}
-                            onChangeText={(text) => setBody(text)}
-                            placeholder={"Texto da publicação(opcional)"}
-                            placeholderTextColor={currentTheme === "dark"? 'white': "#190049"}></InputText>
-                        {state.url.length > 1 && <HeadetComponente></HeadetComponente>}
-                    </ViewInput>
-                    <FlatList
-                        onScroll={onScroll}
-                        key={state.url.length}
-                        keyExtractor={(item, index) => item + index}
-                        pagingEnabled={true}
-                        showsHorizontalScrollIndicator={false}
-                        horizontal={true}
-                        data={state.url}
-                        renderItem={renderItem}/>
-                    <AllOptionsPost>
+        <BodyContainer>
+            <ViewInput>
+                <InputTitle
+                    value={title}
+                    onChangeText={(text) => setTitle(text)}
+                    placeholder={"Título"}
+                    placeholderTextColor={theme.colors.text}></InputTitle>
+                <InputText
+                    multiline={true}
+                    numberOfLines={3}
+                    value={body}
+                    onChangeText={(text) => setBody(text)}
+                    placeholder={"Texto da publicação(opcional)"}
+                    placeholderTextColor={theme.colors.text}></InputText>
+                {state.url.length > 1 && <HeadetComponente></HeadetComponente>}
+            </ViewInput>
+            <FlatList
+                onScroll={onScroll}
+                key={state.url.length}
+                keyExtractor={(item, index) => item + index}
+                pagingEnabled={true}
+                showsHorizontalScrollIndicator={false}
+                horizontal={true}
+                data={state.url}
+                renderItem={renderItem}/>
+            <AllOptionsPost>
+                <GenericButton
+                    IconsProps={{name: "camera", size: 26, color: theme.colors.iconCreate}}
+                    onPress={takePhoto}
+                />
+                <GenericButton
+                    onPress={openGallery}
+                    IconsProps={{name: "images", size: 26, color: theme.colors.iconCreate}}/>
+                <GenericButton
+                    onPress={() => setShowModal(true)}
+                    IconsProps={{name: "link", size: 26, color: theme.colors.iconCreate}}/>
+                <Modal
+                    visible={showModal}
+                    transparent={true}
+                    animationType={"slide"}
+                >
+                    <LeaveInputLink
+                        activeOpacity={0}
+                        onPress={() => {
+                            setShowModal(false)
+                            setLink("");
+                        }}/>
+                    <LinkView>
+                        <InputLink
+                            autoFocus={true}
+                            value={link}
+                            onChangeText={(text) => setLink(text)}
+                        ></InputLink>
                         <GenericButton
-                            IconsProps={{name: "camera", size: 32, color: currentTheme === "dark"? '#baddfd': "#190049"}}
-                            onPress={takePhoto}
-                        />
-                        <GenericButton
-                            onPress={openGallery}
-                            IconsProps={{name: "images", size: 32, color: currentTheme === "dark"? '#baddfd': "#190049"}}/>
-                        <GenericButton
-                            onPress={() => setShowModal(true)}
-                            IconsProps={{name: "link", size: 32, color: currentTheme === "dark"? '#baddfd': "#190049"}}/>
-                        <Modal
-                            visible={showModal}
-                            transparent={true}
-                            animationType={"slide"}
-                        >
-                            <LeaveInputLink
-                                activeOpacity={0}
-                                onPress={() => {
-                                    setShowModal(false)
-                                    setLink("");
-                                }}/>
-                            <LinkView>
-                                <InputLink
-                                    autoFocus={true}
-                                    value={link}
-                                    onChangeText={(text) => setLink(text)}
-                                ></InputLink>
-                                <GenericButton
-                                    IconsProps={{name: "paper-plane", color: "white", size: 40}}
-                                    onPress={getImageWithLink}/>
-                            </LinkView>
-                        </Modal>
-                    </AllOptionsPost>
-                </BodyContainer>
-                :<Loading>
-                    <ActivityIndicator
-                        color={"#e6a600"}
-                        size={60}
-                    />
-                </Loading>
-            }
-        </>
+                            IconsProps={{name: "paper-plane", color: "white", size: 40}}
+                            onPress={getImageWithLink}/>
+                    </LinkView>
+                </Modal>
+            </AllOptionsPost>
+        </BodyContainer>
+
     )
 }
 

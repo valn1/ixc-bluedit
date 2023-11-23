@@ -2,10 +2,10 @@ import {Album} from "../Carrousel/interface";
 import React from "react";
 
 export interface PostData {
-    userData?: {
+    userData: {
         userId?: number
         userMail?: string,
-        userName?: string,
+        userName: string,
     },
     post?: {
         userId?: number,
@@ -21,6 +21,8 @@ export interface PostData {
         }[]
     },
     album?: Album,
+    hideComments?: boolean,
+    pressable?: boolean,
 }
 
 export interface CommentsData{
@@ -34,4 +36,10 @@ export interface modal{
     setVisible:  React.Dispatch<React.SetStateAction<boolean>>
     post: any,
     userData: any,
+}
+
+
+export interface showPerfil{
+    state: boolean,
+    setState: React.Dispatch<React.SetStateAction<boolean>>
 }

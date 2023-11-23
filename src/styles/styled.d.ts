@@ -9,7 +9,11 @@ declare module "styled-components/native" {
             secundary: string,
 
             backgound: string,
-            text: string
+            text: string,
+
+            border: string,
+
+            iconCreate: string
         }
     }
 }

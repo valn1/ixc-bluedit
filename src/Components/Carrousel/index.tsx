@@ -127,13 +127,12 @@ const Carrousel: React.FC<Album> = ({AlbumData}) => {
                 showsPagination={false}
                 paginationStyle={{bottom: -25}}
                 height={290}
-                key={AlbumData.id}
                 loadMinimal={true}
                 loadMinimalSize={3}
             >
                 {AlbumData.photos.map((item, index) => (
                     <ImageContainer key={index}>
-                        <Photo key={item.id} resizeMode="contain"
+                        <Photo resizeMode="contain"
                                source={{uri: item.url?.startsWith("/data") ? `file://${item.url}` : item.url}}/>
                     </ImageContainer>
                 ))}

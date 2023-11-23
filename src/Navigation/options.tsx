@@ -3,7 +3,7 @@ import React from "react";
 import {BottomTabNavigationOptions} from "@react-navigation/bottom-tabs";
 import {NativeStackNavigationOptions} from "@react-navigation/native-stack";
 import {useTheme} from "styled-components";
-//o use theme serve para usar os temas do providerTheme fora de componentes styled-component
+import {RFValue} from "react-native-responsive-fontsize";
 
 const whatIcon = (IconName : string): string => {
     switch (IconName){
@@ -15,7 +15,11 @@ const whatIcon = (IconName : string): string => {
 }
 export const itemOptions = ({ route }:{route: {name: string}}): BottomTabNavigationOptions => {
     return {
-        tabBarIcon: (props: { focused: boolean; color: string; size: number; }) => <Icon name={whatIcon(route.name)} size={30} color={props.color} />
+        tabBarIcon: (props: {
+            focused: boolean;
+            color: string;
+            size: number; }) =>
+            <Icon name={whatIcon(route.name)} size={RFValue(25)} color={props.color} />
     }
 }
 
@@ -34,7 +38,7 @@ export const screenOptions = () : BottomTabNavigationOptions => {
         tabBarLabelStyle:{
             color: theme.colors.text,
             marginBottom: 10,
-            fontSize: 13,
+            fontSize: RFValue(10),
             marginTop: -10,
         },
         tabBarIconStyle: {
@@ -42,7 +46,7 @@ export const screenOptions = () : BottomTabNavigationOptions => {
         },
         tabBarStyle: {
             backgroundColor: theme.colors.primary,
-            height: 80,
+            height: RFValue(64),
             borderColor: theme.colors.primary,
         }
     };

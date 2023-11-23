@@ -21,10 +21,11 @@ import {Post} from "../Post";
 import CryptoJS from "rn-crypto-js"
 import {ExcludeOption} from "./ExcludeOption";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {AsyncPosts} from "./interface";
+import {PostsInProfile} from "./interface";
 import {AllConfigOptions} from "./AllConfigOptions";
+import AnimatedInterpolation = Animated.AnimatedInterpolation;
 
-const UserPublication: React.FC<AsyncPosts> = ({postagens, comentario}) => {
+const UserPublication: React.FC<PostsInProfile> = ({postagens, comentario}) => {
     const [posts, setPosts] = useState(true)
     const [commnts, setComments] = useState(false)
     const [albums, setAlbums] = useState(false)
@@ -46,18 +47,12 @@ const UserPublication: React.FC<AsyncPosts> = ({postagens, comentario}) => {
     const hash = CryptoJS.MD5("alexandrebeilner10@gmail.com").toString();
 
     const IsLoading = () => {
-        return(
-            <View style={{flex: 1, alignItems: "center", justifyContent:"center"}}>
-                <ActivityIndicator color={"#e6a600"} size={"large"} ></ActivityIndicator>
+        return (
+            <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+                <ActivityIndicator color={"#e6a600"} size={"large"}></ActivityIndicator>
             </View>
         )
     }
-    const changeVisiblePost = (post: boolean, album: boolean, comment: boolean): void => {
-        setPosts(post)
-        setAlbums(album)
-        setComments(comment)
-    }
-
     const renderComentarios: ListRenderItem<any> | null | undefined = ({item, index}) => {
         return (
             <>
@@ -68,11 +63,14 @@ const UserPublication: React.FC<AsyncPosts> = ({postagens, comentario}) => {
             </>
         )
     }
+
     const renderPublicacao: ListRenderItem<any> | null | undefined = ({item, index}) => {
         if (item.url.length === 0) {
             return (
                 <>
                     <Post
+                        pressable={false}
+                        hideComments={true}
                         post={{title: item.title, body: item.body, id: index, userId: index}}
                         userData={{userId: index, userName: userName ? userName : "Xandão", userMail: item.email}}
                     />
@@ -83,7 +81,6 @@ const UserPublication: React.FC<AsyncPosts> = ({postagens, comentario}) => {
             return null
         }
     }
-
     const renderAlbum: ListRenderItem<any> | null | undefined = ({item, index}) => {
         const photosMap = item.url.map((url: any, index: number) => {
             return {
@@ -106,6 +103,8 @@ const UserPublication: React.FC<AsyncPosts> = ({postagens, comentario}) => {
             return (
                 <>
                     <Post
+                        pressable={false}
+                        hideComments={true}
                         album={albumData}
                         userData={{userId: index, userName: userName ? userName : "Xandão", userMail: item.email}}
                     ></Post>
@@ -117,19 +116,19 @@ const UserPublication: React.FC<AsyncPosts> = ({postagens, comentario}) => {
         }
     }
 
-
     const H_MAX_HEIGHT = 375;
+
+
     const scrollOffsetY = useRef(new Animated.Value(0)).current;
-    const dinamicSize = (max: number, min: number, distance: number) => {
+    const dinamicSize = (max: number, min: number, distance: number):AnimatedInterpolation<number | string> => {
         return scrollOffsetY.interpolate({
             inputRange: [0, distance],
             outputRange: [max, min],
             extrapolate: "clamp"
         })
     }
-
     const PostCommentAlbum = (data: any, renderItem: any) => {
-        return(
+        return (
             <FlatList
                 data={data}
                 renderItem={renderItem}
@@ -143,21 +142,28 @@ const UserPublication: React.FC<AsyncPosts> = ({postagens, comentario}) => {
         )
     }
 
+    const changeVisiblePost = (post: boolean, album: boolean, comment: boolean): void => {
+        setPosts(post)
+        setAlbums(album)
+        setComments(comment)
+    }
 
     return (
         <View style={{flex: 1}}>
             <UpsideContainer style={{height: dinamicSize(375, 175, 200)}}>
                 <View style={{flexDirection: "row", justifyContent: "space-between", flex: 1}}>
                     <View style={{justifyContent: "center"}}>
-                        <ImageView
-                            style={{
-                                height: dinamicSize(140,70,230),
-                                width: dinamicSize(140,70,230)}}>
-                            <UserImageProfile
-                                source={{uri: userPhoto ? userPhoto : `https://www.gravatar.com/avatar/${hash}`}}
-                                resizeMode={"cover"}/>
-                        </ImageView>
-                        <UserNameText style={{fontSize: dinamicSize(30,15,150)}}>{userName ? userName : "Xandão"}</UserNameText>
+                            <ImageView
+                                style={{
+                                    height: dinamicSize(140, 70, 230),
+                                    width: dinamicSize(140, 70, 230)
+                                }}>
+                                <UserImageProfile
+                                    source={{uri: userPhoto ? userPhoto : `https://www.gravatar.com/avatar/${hash}`}}
+                                    resizeMode={"cover"}/>
+                            </ImageView>
+                            <UserNameText
+                                style={{fontSize: dinamicSize(30, 15, 150)}}>{userName ? userName : "Xandão"}</UserNameText>
                     </View>
                     <AllConfigOptions></AllConfigOptions>
                 </View>

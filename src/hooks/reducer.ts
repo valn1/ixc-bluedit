@@ -14,7 +14,8 @@ const inicialAppState : AppState = {
         changeName: false,
         changeTheme: false
     },
-    newPost: false
+    newPost: false,
+    currentID: -1
 }
 
 
@@ -110,6 +111,12 @@ const reducer = (state: AppState, action: any) => {
                     changeTheme: !state.perfilOptions.changeTheme,
                     changeName: false
                 }
+            }
+        }
+        case "CURRENT_ID": {
+            return {
+                ...state,
+                currentID: action.payload
             }
         }
         default: {

@@ -6,6 +6,10 @@ export default {
         secundary: "#e6a600",
 
         backgound: "#170044",
-        text: "#fff"
+        text: "#fff",
+
+        border: "#250069",
+
+        iconCreate: "#baddfd"
     }
 }

@@ -1,6 +1,7 @@
 import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import {Animated} from "react-native";
+import {RFValue} from "react-native-responsive-fontsize";
 export const UserProfileContainer = styled.View`
   flex: 1;
   background-color: ${props => props.theme.colors.backgound};
@@ -37,8 +38,8 @@ export const UserNameText = styled(Animated.Text)`
 export const PublicationsContainer = styled(Animated.View)`
   border-width: 3px;
   border-top-color: ${props => props.theme.colors.backgound};
-  border-right-color: ${props => props.theme.colors.primary};
-  border-left-color: ${props => props.theme.colors.primary};
+  border-right-color: ${props => props.theme.colors.border};
+  border-left-color: ${props => props.theme.colors.border};
   border-bottom-color: ${props => props.theme.colors.backgound};
 `;
 
@@ -47,9 +48,9 @@ export const ViewHeaderOptions = styled(Animated.View)`
   border-top-right-radius: 50px;
   border-top-left-radius: 50px;
   border-width: 3px;
-  border-top-color: ${props => props.theme.colors.primary};
-  border-right-color: ${props => props.theme.colors.primary};
-  border-left-color: ${props => props.theme.colors.primary};
+  border-top-color: ${props => props.theme.colors.border};
+  border-right-color: ${props => props.theme.colors.border};
+  border-left-color: ${props => props.theme.colors.border};
   border-bottom-color: ${props => props.theme.colors.backgound};
   width: 100%;
   flex-direction: row;
@@ -66,7 +67,7 @@ export const ButtonContainer = styled.TouchableOpacity`
 `;
 
 export const ButtonName = styled.Text`
-  font-size: 18px;
+  font-size: ${RFValue(14)}px;
   font-weight: 500;
 `;
 export const ExcludeView = styled.View`
@@ -140,13 +141,13 @@ export const GenericOpacitiOptions = styled.TouchableOpacity`
 `;
 
 export const OptionsName = styled.Text`
-  font-size: 20px;
+  font-size: ${RFValue(15)}px;
   color: ${props => props.theme.colors.text};
   margin-left: 30px;
 `;
 
 export const OptionIcon = styled(Icon)`
-  font-size: 30px;
+  font-size: ${RFValue(25)}px;
   color: ${props => props.theme.colors.text};
   margin-left: 15px;
 `;

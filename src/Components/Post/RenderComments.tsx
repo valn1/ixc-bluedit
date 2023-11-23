@@ -17,9 +17,9 @@ const RenderComments: React.FC<PostData> = ({post}) => {
             keyboardShouldPersistTaps='handled'
             keyExtractor={(item, index) => `${item.email}-${index.toString()}`}
             showsVerticalScrollIndicator={false}
-            style={{width: "93%"}}
             data={post?.comments}
             renderItem={renderItem}
+            contentContainerStyle={{paddingHorizontal: 15}}
         />
     )
 }

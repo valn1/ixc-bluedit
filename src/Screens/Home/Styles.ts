@@ -2,9 +2,7 @@ import styled from "styled-components/native";
 
 export const HomeContainer = styled.SafeAreaView` 
   flex: 1;
-  background-color: ${props => props.theme.colors.backgound};
-  justify-content: center;
-  align-items: center;`;
+  background-color: ${props => props.theme.colors.backgound};`;
 export const ActivityIndicatorLoading = styled.ActivityIndicator`
 
 `;

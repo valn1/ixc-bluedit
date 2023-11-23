@@ -6,10 +6,8 @@ export const Photo = styled.Image`
 `;
 
 export const ImageContainer = styled.View`
-  height: 290px;
+  height: 300px;
   align-items: center;
-  justify-content: center;
-  flex-direction: row;
 `
 export const DotContainer = styled.View` 
   height: 30px;

@@ -6,8 +6,9 @@ export interface ButtonProps {
     onPress: () => void
 }
 
-export interface AsyncPosts{
+export interface PostsInProfile {
     postagens: {
+        userName?: string,
         title: string,
         body: string,
         email: string
@@ -16,7 +17,7 @@ export interface AsyncPosts{
     comentario: {
         body: string,
         email: string,
-    }[]
+    }[],
 }
 
 export interface ExcludePosts{

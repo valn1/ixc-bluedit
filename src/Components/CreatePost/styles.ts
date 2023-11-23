@@ -1,4 +1,6 @@
 import styled from "styled-components/native";
+import {Dimensions} from "react-native";
+import {RFValue} from "react-native-responsive-fontsize";
 
 export const CreatePostContainer = styled.View`
   flex: 1;
@@ -9,14 +11,15 @@ export const HeaderContainer = styled.View`
   height: 80px;
   background-color: #0b0224;
   align-items: center;
-  justify-content: space-between;
   flex-direction: row;
 `;
 
 export const HeaderText = styled.Text`
   color: white;
-  font-size: 15px;
-  margin-left: 50px;
+  font-size: ${RFValue(14)}px;
+  flex: 1;
+  text-align: center;
+  margin-left: 20%;
 `;
 
 export const TextInButton = styled.Text`
@@ -50,12 +53,12 @@ export const ViewInput = styled.View`
 `;
 
 export const InputTitle = styled.TextInput`
-  font-size: 30px;
+  font-size: ${RFValue(25)}px;
   color: ${props => props.theme.colors.text};
 `;
 
 export const InputText = styled.TextInput`
-  font-size: 20px;
+  font-size: ${RFValue(16)}px;
   color: ${props => props.theme.colors.text};
   width: 72%;
 `;
@@ -112,14 +115,14 @@ export const ImageInCamera = styled.Image`
   transform: rotate(270deg);
 `;
 export const ImageInGallery = styled.Image`
-  height: 500px;
-  width: 500px;
+  height: ${Dimensions.get("window").height / 2.5}px;
+  width: ${Dimensions.get("window").width}px;
 `;
 
 export const InputLink = styled.TextInput`
   width: 80%;
   height: 110px;
-  background-color: ${props => props.theme.bg};
+  background-color: ${props => props.theme.colors.backgound};
   border-radius: 20px;
   border: 5px ${props => props.theme.colors.secundary};
   margin-left: 20px;
