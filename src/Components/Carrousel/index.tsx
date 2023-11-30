@@ -112,6 +112,7 @@ const Carrousel: React.FC<Album> = ({AlbumData}) => {
         }
     }
 
+
     return (
         <View>
             <Swiper
@@ -131,10 +132,10 @@ const Carrousel: React.FC<Album> = ({AlbumData}) => {
                 loadMinimalSize={3}
             >
                 {AlbumData.photos.map((item, index) => (
-                    <ImageContainer key={index}>
-                        <Photo resizeMode="contain"
-                               source={{uri: item.url?.startsWith("/data") ? `file://${item.url}` : item.url}}/>
-                    </ImageContainer>
+                        <ImageContainer key={index}>
+                            <Photo resizeMode="contain"
+                                   source={{uri: item.url?.startsWith("/data") ? `file://${item.url}` : item.url}}/>
+                        </ImageContainer>
                 ))}
             </Swiper>
             {SetDots()}

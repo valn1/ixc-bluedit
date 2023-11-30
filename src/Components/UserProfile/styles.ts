@@ -28,6 +28,7 @@ export const ImageView = styled(Animated.View)`
   margin-left: 25px;
   width: 140px;
   height: 140px;
+  margin-top: 10px;
 `;
 
 export const UserNameText = styled(Animated.Text)`
@@ -117,7 +118,7 @@ export const OpenConfigButton = styled.TouchableOpacity`
   width: 60px;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 30px;
   margin-right: 10px;
 `;
 
@@ -255,3 +256,7 @@ export const Loading = styled.View`
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.5);
 `;
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

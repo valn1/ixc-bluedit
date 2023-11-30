@@ -11,3 +11,9 @@ export const LoadingContainer = styled.View`
   justify-content: center;
   align-items: center;
 `;
+
+export const SkeletonContainer = styled.View` 
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;

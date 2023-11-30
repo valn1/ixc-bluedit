@@ -63,7 +63,7 @@ const Body: React.FC<{ postagens: PostData[], albums: PostData[] }> = ({postagen
                 setAlbum={setAlbum}
                 setPost={setPost}
                 postagens={postagens}
-                heigthView={dinamicSize(330, 170, 150)}
+                heigthView={dinamicSize(330, 190, 150)}
                 heigthImage={dinamicSize(150, 75, 140)}
                 heigthText={dinamicSize(30, 0, 100)}
             />

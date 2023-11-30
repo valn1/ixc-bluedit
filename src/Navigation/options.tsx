@@ -4,9 +4,11 @@ import {BottomTabNavigationOptions} from "@react-navigation/bottom-tabs";
 import {NativeStackNavigationOptions} from "@react-navigation/native-stack";
 import {useTheme} from "styled-components";
 import {RFValue} from "react-native-responsive-fontsize";
+import {Dimensions} from "react-native";
 
 const whatIcon = (IconName : string): string => {
     switch (IconName){
+        case "Animated": return "magic"
         case "Início": return "home"
         case "Criar": return "plus"
         case "Perfil": return "user-alt"
@@ -46,7 +48,7 @@ export const screenOptions = () : BottomTabNavigationOptions => {
         },
         tabBarStyle: {
             backgroundColor: theme.colors.primary,
-            height: RFValue(64),
+            height: Dimensions.get("window").height * 0.08,
             borderColor: theme.colors.primary,
         }
     };

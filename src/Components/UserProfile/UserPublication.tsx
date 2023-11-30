@@ -12,7 +12,7 @@ import {
     FlatList,
     ListRenderItem,
     View,
-    Animated, ActivityIndicator
+    Animated
 } from "react-native";
 import {AppContext} from "../../App";
 import {CommentBody} from "../Post/CommentBody";
@@ -24,8 +24,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {PostsInProfile} from "./interface";
 import {AllConfigOptions} from "./AllConfigOptions";
 import AnimatedInterpolation = Animated.AnimatedInterpolation;
+import {SkeletonProfile} from "../Skeleton/SkeletonProfile";
 
-const UserPublication: React.FC<PostsInProfile> = ({postagens, comentario}) => {
+const UserPublication: React.FC<PostsInProfile> = ({postagens, haveData, comentario}) => {
     const [posts, setPosts] = useState(true)
     const [commnts, setComments] = useState(false)
     const [albums, setAlbums] = useState(false)
@@ -46,13 +47,6 @@ const UserPublication: React.FC<PostsInProfile> = ({postagens, comentario}) => {
 
     const hash = CryptoJS.MD5("alexandrebeilner10@gmail.com").toString();
 
-    const IsLoading = () => {
-        return (
-            <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-                <ActivityIndicator color={"#e6a600"} size={"large"}></ActivityIndicator>
-            </View>
-        )
-    }
     const renderComentarios: ListRenderItem<any> | null | undefined = ({item, index}) => {
         return (
             <>
@@ -149,10 +143,13 @@ const UserPublication: React.FC<PostsInProfile> = ({postagens, comentario}) => {
     }
 
     return (
-        <View style={{flex: 1}}>
-            <UpsideContainer style={{height: dinamicSize(375, 175, 200)}}>
-                <View style={{flexDirection: "row", justifyContent: "space-between", flex: 1}}>
-                    <View style={{justifyContent: "center"}}>
+        <>
+            {!haveData
+                ? <SkeletonProfile/>
+                : <View style={{flex: 1}}>
+                <UpsideContainer style={{height: dinamicSize(375, 190, 200)}}>
+                    <View style={{flexDirection: "row", justifyContent: "space-between", flex: 1, marginTop: 15}}>
+                        <View style={{justifyContent: "center"}}>
                             <ImageView
                                 style={{
                                     height: dinamicSize(140, 70, 230),
@@ -164,33 +161,31 @@ const UserPublication: React.FC<PostsInProfile> = ({postagens, comentario}) => {
                             </ImageView>
                             <UserNameText
                                 style={{fontSize: dinamicSize(30, 15, 150)}}>{userName ? userName : "Xandão"}</UserNameText>
+                        </View>
+                        <AllConfigOptions></AllConfigOptions>
                     </View>
-                    <AllConfigOptions></AllConfigOptions>
-                </View>
-                <ViewHeaderOptions>
-                    <HeaderButtons
-                        onPress={() => changeVisiblePost(true, false, false)}
-                        name={"Publicações"}
-                        color={posts}/>
-                    <HeaderButtons
-                        onPress={() => changeVisiblePost(false, false, true)}
-                        name={"Comentários"}
-                        color={commnts}/>
-                    <HeaderButtons
-                        onPress={() => changeVisiblePost(false, true, false)}
-                        name={"Álbums"}
-                        color={albums}/>
-                </ViewHeaderOptions>
-            </UpsideContainer>
-            {postagens.length === 0
-                ? <IsLoading></IsLoading>
-                : <PublicationsContainer>
+                    <ViewHeaderOptions>
+                        <HeaderButtons
+                            onPress={() => changeVisiblePost(true, false, false)}
+                            name={"Publicações"}
+                            color={posts}/>
+                        <HeaderButtons
+                            onPress={() => changeVisiblePost(false, false, true)}
+                            name={"Comentários"}
+                            color={commnts}/>
+                        <HeaderButtons
+                            onPress={() => changeVisiblePost(false, true, false)}
+                            name={"Álbums"}
+                            color={albums}/>
+                    </ViewHeaderOptions>
+                </UpsideContainer>
+                <PublicationsContainer>
                     {posts && PostCommentAlbum(postagens, renderPublicacao)}
                     {commnts && PostCommentAlbum(comentario, renderComentarios)}
                     {albums && PostCommentAlbum(postagens, renderAlbum)}
                 </PublicationsContainer>
-            }
-        </View>
+            </View>}
+        </>
     )
 }
 

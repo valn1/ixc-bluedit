@@ -4,9 +4,9 @@ import {Post} from "../../Components/Post";
 import {FindInput} from "../../Components/FindInput";
 import {PostData} from "../../Components/Post/interface";
 import {ActivityIndicator} from "react-native";
-import {ActivityIndicatorLoading, LoadingContainer} from "./Styles";
 import {getUsersAndPosts} from "../../helpers/APIHelperData";
 import {FlashList} from "@shopify/flash-list";
+import {SkeletonHome} from "../../Components/Skeleton/SkeletonHome";
 
 const Home: React.FC = () => {
     const [userAndPost, setUserAndPost] = useState<PostData[]>([]);
@@ -50,44 +50,45 @@ const Home: React.FC = () => {
     }
 
     const onEndReached = () => {
-        if(!searchText){
+        if (!searchText) {
             setPostTest(postTest + 1);
         }
     }
 
 
     const ListFooterComponent = () => {
-        if(!searchText){
+        if (!searchText) {
             return (
                 <ActivityIndicator size={40} color={"#e6a600"}/>
             )
-        }else {
+        } else {
             return null
         }
     }
 
     return (
         <HomeContainer>
-            <FindInput
-                value={searchText}
-                onChangeText={(text: string) => setSearchText(text)}
-            />
             {userAndPost.length > 0
-                ? (<FlashList
-                    estimatedItemSize={300}
-                    keyboardShouldPersistTaps={"handled"}
-                    keyExtractor={(item, index) => index.toString()}
-                    showsVerticalScrollIndicator={false}
-                    ListFooterComponent={ListFooterComponent}
-                    onEndReached={onEndReached}
-                    onEndReachedThreshold={0.5}
-                    data={userAndPost}
-                    renderItem={renderItem}
-                    contentContainerStyle={{paddingHorizontal: 15}}
-                />)
-                : (<LoadingContainer>
-                    <ActivityIndicatorLoading size={60} color={"#e6a600"}/>
-                </LoadingContainer>)
+                ? (<>
+                        <FindInput
+                            value={searchText}
+                            onChangeText={(text: string) => setSearchText(text)}
+                        />
+                        <FlashList
+                            estimatedItemSize={300}
+                            keyboardShouldPersistTaps={"handled"}
+                            keyExtractor={(item, index) => index.toString()}
+                            showsVerticalScrollIndicator={false}
+                            ListFooterComponent={ListFooterComponent}
+                            onEndReached={onEndReached}
+                            onEndReachedThreshold={0.5}
+                            data={userAndPost}
+                            renderItem={renderItem}
+                            contentContainerStyle={{paddingHorizontal: 15}}
+                        />
+                    </>
+                )
+                : (<SkeletonHome></SkeletonHome>)
             }
         </HomeContainer>
     )

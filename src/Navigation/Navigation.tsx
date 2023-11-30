@@ -9,7 +9,6 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {CameraModal} from "../Components/CreatePost/CameraModal";
 import {FollowerProfile} from "../Components/FollowerProfile";
 
-
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +41,7 @@ const TabNavigator = () => {
         </NavigationContainer>
     )
 }
+
 
 const Navigator = () => {
     return (

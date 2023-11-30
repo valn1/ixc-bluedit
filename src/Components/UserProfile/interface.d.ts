@@ -1,4 +1,5 @@
 import React from "react";
+import {SharedValue} from "react-native-reanimated";
 
 export interface ButtonProps {
     name: string
@@ -18,6 +19,7 @@ export interface PostsInProfile {
         body: string,
         email: string,
     }[],
+    haveData?: boolean
 }
 
 export interface ExcludePosts{
@@ -40,4 +42,11 @@ export interface Config{
 export interface OptionsConfig{
     state: boolean,
     setState: React.Dispatch<React.SetStateAction<boolean>>,
+}
+
+
+export interface HeaderProps{
+    userName: string,
+    userPhoto: string,
+    translateY:  SharedValue<number>
 }

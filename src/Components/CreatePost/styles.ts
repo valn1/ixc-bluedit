@@ -8,7 +8,7 @@ export const CreatePostContainer = styled.View`
 
 export const HeaderContainer = styled.View`
   width: 100%;
-  height: 80px;
+  height: 95px;
   background-color: #0b0224;
   align-items: center;
   flex-direction: row;
@@ -20,6 +20,7 @@ export const HeaderText = styled.Text`
   flex: 1;
   text-align: center;
   margin-left: 20%;
+  margin-top: 15px;
 `;
 
 export const TextInButton = styled.Text`
@@ -35,12 +36,14 @@ export const ButtonPost = styled.TouchableOpacity`
   justify-content: center;
   border-radius: 13px;
   margin-right: 20px;
+  margin-top: 15px;
 `;
 
 
 export const ButtonGeneric = styled.TouchableOpacity`
   margin-left: 23px;
   margin-right: 23px;
+  margin-top: 15px;
 `;
 
 export const BodyContainer = styled.KeyboardAvoidingView`
@@ -89,7 +92,7 @@ export const TakePhotoButton = styled.TouchableOpacity`
 
 export const HeaderCamera = styled.View`
   width: 100%;
-  height: 70px;
+  height: 90px;
   background-color: ${props => props.theme.colors.backgound};
   align-items: center;
   justify-content: space-between;

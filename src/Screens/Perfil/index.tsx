@@ -8,6 +8,7 @@ const Perfil: React.FC = () => {
 
     const [asyncState, setAsyncState] = useState([])
     const [asyncComment, setAsyncComments] = useState([])
+    const [haveData, setHaveDate] = useState(false)
     const {state} = useContext(AppContext)
 
     useEffect(() => {
@@ -21,17 +22,18 @@ const Perfil: React.FC = () => {
                 if(getComments !== null){
                     setAsyncComments(JSON.parse(getComments));
                 }
-
+                setHaveDate(true)
             }catch (e){
                 console.log(e);
             }
         }
-        getData();
+        getData()
     }, [state.update])
 
     return(
         <ViewGeneric>
             <UserProfile
+                haveData={haveData}
                 comentario={asyncComment}
                 postagens={asyncState}></UserProfile>
         </ViewGeneric>

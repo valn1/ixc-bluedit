@@ -23,6 +23,7 @@ export const ImageView =  styled(Animated.View)`
   flex: 1;
   align-items: center;
   justify-content: center;
+  margin-top: 20px;
 `;
 
 export const BoxName = styled(Animated.Text)` 
@@ -37,6 +38,7 @@ export const BackButton = styled.TouchableOpacity`
   left: 20px;
   top: 20px;
   z-index: 99;
+  margin-top: 15px;
 `;
 
 export const ShapeImage = styled(Animated.View)`

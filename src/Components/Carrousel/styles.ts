@@ -24,4 +24,3 @@ export const BorderDot = styled.View`
   border-radius: 4px;
   background-color: ${props => props.theme.colors.text};
 `
-
