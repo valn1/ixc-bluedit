@@ -3,7 +3,7 @@ import Icon from "react-native-vector-icons/Entypo";
 
 export const InputContainer = styled.View`
   width: 100%;
-  height: 80px;
+  height: 90px;
   background-color: #0b0224;
   align-items: center;
   justify-content: center;
@@ -17,6 +17,7 @@ export const InputBoxContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  margin-top: 15px;
 `;
 
 export const LupaIcon = styled(Icon)` 

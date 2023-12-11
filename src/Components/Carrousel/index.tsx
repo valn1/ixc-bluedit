@@ -1,4 +1,4 @@
-import React, {useContext, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {Photo, ImageContainer, DotContainer, BorderDot} from './styles'
 import {Album} from "./interface";
 import Swiper from 'react-native-swiper'
@@ -6,15 +6,27 @@ import {Text, View} from "react-native";
 import Dots from "react-native-dots-pagination";
 import {AppContext} from "../../App";
 import {useTheme} from "styled-components";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Carrousel: React.FC<Album> = ({AlbumData}) => {
     const theme = useTheme()
-    const {state} = useContext(AppContext);
     const StylesButon = (valor: string) => <Text style={{fontSize: 80, color: theme.colors.text}}>{valor}</Text>
     const [currentIndex, setCurrentIndex] = useState(0);
     const [direction, setDirection] = useState('');
     const flatListRef = useRef(null)
+    const [currentTheme, setCurrentTheme] = useState('');
 
+    const {state} = useContext(AppContext)
+
+
+    useEffect(() => {
+        const getTheme = async () => {
+            const theme = await AsyncStorage.getItem("themeConfig");
+            setCurrentTheme(theme as string)
+        }
+
+        getTheme();
+    }, [state.update])
 
     const handleIndexChanged = (index: number) => {
         setCurrentIndex(index);
@@ -38,7 +50,7 @@ const Carrousel: React.FC<Album> = ({AlbumData}) => {
                     passiveDotWidth={12}
                     passiveDotHeight={12}
                     marginHorizontal={5}
-                    passiveColor={theme.colors.text}
+                    passiveColor={currentTheme === "dark" ? "#fff" : "#000" }
                 />
             )
         }
@@ -56,7 +68,7 @@ const Carrousel: React.FC<Album> = ({AlbumData}) => {
                             passiveDotWidth={12}
                             passiveDotHeight={12}
                             marginHorizontal={5}
-                            passiveColor={state.theme === "dark" ? 'white' : "black"}
+                            passiveColor={currentTheme === "dark" ? "#fff" : "#000" }
                             width={77}
                             paddingHorizontal={5}
 
@@ -73,7 +85,7 @@ const Carrousel: React.FC<Album> = ({AlbumData}) => {
                             passiveDotWidth={12}
                             passiveDotHeight={12}
                             marginHorizontal={5}
-                            passiveColor={state.theme === "dark" ? 'white' : "black"}
+                            passiveColor={currentTheme === "dark" ? "#fff" : "#000" }
                             width={104}
                         ></Dots>
                         <BorderDot></BorderDot>
@@ -93,12 +105,13 @@ const Carrousel: React.FC<Album> = ({AlbumData}) => {
                         passiveDotWidth={12}
                         passiveDotHeight={12}
                         marginHorizontal={5}
-                        passiveColor={state.theme === "dark" ? 'white' : "black"}
+                        passiveColor={currentTheme === "dark" ? "#fff" : "#000" }
                     />
                 </DotContainer>
             )
         }
     }
+
 
     return (
         <View>
@@ -115,15 +128,14 @@ const Carrousel: React.FC<Album> = ({AlbumData}) => {
                 showsPagination={false}
                 paginationStyle={{bottom: -25}}
                 height={290}
-                key={AlbumData.id}
                 loadMinimal={true}
                 loadMinimalSize={3}
             >
                 {AlbumData.photos.map((item, index) => (
-                    <ImageContainer key={index}>
-                        <Photo key={item.id} resizeMode="contain"
-                               source={{uri: item.url?.startsWith("/data") ? `file://${item.url}` : item.url}}/>
-                    </ImageContainer>
+                        <ImageContainer key={index}>
+                            <Photo resizeMode="contain"
+                                   source={{uri: item.url?.startsWith("/data") ? `file://${item.url}` : item.url}}/>
+                        </ImageContainer>
                 ))}
             </Swiper>
             {SetDots()}

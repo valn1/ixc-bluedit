@@ -5,7 +5,7 @@ import {ButtonProps} from "./interface";
 const HeaderButtons: React.FC<ButtonProps> = ({name , color, onPress}) => {
     return(
         <ButtonContainer onPress={onPress}>
-            <ButtonName style={{color}}>{name}</ButtonName>
+            <ButtonName style={{color: color ? "#cb9412" : "#91a9d0"}}>{name}</ButtonName>
         </ButtonContainer>
     )
 }

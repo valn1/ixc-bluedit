@@ -1,78 +1,40 @@
 import React, {useContext} from "react";
 import {ButtonPost, HeaderContainer, HeaderText, TextInButton} from "./styles";
-import {GenericButton} from "./GenericButton";
 import {AppContext} from "../../App";
-import {Alert} from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import uuid from "react-native-uuid";
+import PushNotification from "react-native-push-notification";
 
 const CreatePostHeader: React.FC = () => {
 
     const {state, dispatch} = useContext(AppContext)
 
-    const newPublication = {
-        title: state.title,
-        body: state.body,
-        email: "alexandrebeilner10@gmail.com",
-        url: state.url,
-        id: uuid.v4()
+    PushNotification.createChannel(
+        {
+            channelId: "create-post", // Um ID exclusivo para o canal
+            channelName: "Create Post", // Nome amigável do canal
+            channelDescription: "Ativado quando posts serem criados", // Descrição do canal
+            soundName: "default", // Som da notificação (opcional)
+            importance: 4, // Importância da notificação (4 é a importância máxima)
+            vibrate: false, // Vibration (opcional)
+        },
+        _ => {}, // Callback de confirmação
+    );
+
+    const pushNotification = () => {
+        PushNotification.localNotification({
+            channelId: "create-post", // Especifica o canal
+            title: "Post realizado com sucesso",
+            message: "Estará visivel no seu perfil",
+            picture: state.url[0],
+        });
     }
-    const storeData = async () => {
-        try {
-            const asyncPublication = await AsyncStorage.getItem("Publication");
-            let asyncPost = [];
-
-            if (asyncPublication !== null) {
-                asyncPost = JSON.parse(asyncPublication);
-            }
-
-            asyncPost.push(newPublication);
-
-            await AsyncStorage.setItem("Publication", JSON.stringify(asyncPost));
-        } catch (error) {
-            console.log("Erro ao armazenar dados: ", error);
-        }
-    };
-
-
     const newPost = () => {
-        if (state.title) {
-            if (state.title && state.body && state.url.length === 0) {
-                dispatch({
-                    type: "PUBLICACAO",
-                    payload: {
-                        title: state.title,
-                        body: state.body,
-                        email: "alexandrebeilner10@gmail.com"
-                    }
-                })
-            }
-            if (state.url.length > 0 && state.title) {
-                dispatch({
-                    type: "ALBUM",
-                    payload: {
-                        url: state.url,
-                        title: state.title,
-                        body: state.body,
-                        email: "alexandrebeilner10@gmail.com"
-                    }
-                })
-            }
-            storeData();
-            dispatch({
-                type: "CLEAR_POST",
-            })
-        } else {
-            Alert.alert("Erro", "Algum campo não foi preenchido corretamente");
-        }
-        dispatch({type: "UPDATE"})
+        dispatch({
+            type: "NEW_POST"
+        })
+        pushNotification();
     }
     return (
         <HeaderContainer>
-            <GenericButton
-                onPress={() => {
-                }}
-                IconsProps={{name: "times", size: 40, color: "white"}}/>
             <HeaderText>Nova Publicação</HeaderText>
             <ButtonPost onPress={newPost}><TextInButton>Publicar</TextInButton></ButtonPost>
         </HeaderContainer>

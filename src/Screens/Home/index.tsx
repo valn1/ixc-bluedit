@@ -3,39 +3,32 @@ import {HomeContainer} from "./Styles";
 import {Post} from "../../Components/Post";
 import {FindInput} from "../../Components/FindInput";
 import {PostData} from "../../Components/Post/interface";
-import {ActivityIndicator, FlatList, ListRenderItem} from "react-native";
-import {ActivityIndicatorLoading, LoadingContainer} from "./Styles";
+import {ActivityIndicator} from "react-native";
 import {getUsersAndPosts} from "../../helpers/APIHelperData";
+import {FlashList} from "@shopify/flash-list";
+import {SkeletonHome} from "../../Components/Skeleton/SkeletonHome";
 
 const Home: React.FC = () => {
     const [userAndPost, setUserAndPost] = useState<PostData[]>([]);
-    const [visiblePost, setVisiblePost] = useState<PostData[]>([]);
     const [originalPosts, setOriginalPosts] = useState<PostData[]>([]); // Novo estado para os posts originais
-    const [howPostsIsVisible, setHowPostsIsVisible] = useState(20);
     const [searchText, setSearchText] = useState('');
-
+    const [postTest, setPostTest] = useState(1)
 
     useEffect(() => {
         const getDataToPosts = async () => {
-            const allPosts = await getUsersAndPosts();
-            setUserAndPost(allPosts);
-            const postVisible = allPosts.slice(howPostsIsVisible - 20, howPostsIsVisible);
-            setVisiblePost(postVisible);
+            const allPosts = await getUsersAndPosts(postTest);
+            setUserAndPost(prevState => [...prevState, ...allPosts]);
+            setOriginalPosts(prevState => [...prevState, ...allPosts]);
         };
         getDataToPosts()
-    }, []);
+    }, [postTest]);
 
-    useEffect(() => {
-        const postVisible: PostData[] = userAndPost.slice(howPostsIsVisible - 20, howPostsIsVisible);
-        setVisiblePost(prevState => [...prevState, ...postVisible]);
-        setOriginalPosts(visiblePost);
-    }, [howPostsIsVisible])
 
     useEffect(() => {
         if (!searchText) {
-            setVisiblePost(originalPosts);
+            setUserAndPost(originalPosts);
         } else {
-            setVisiblePost(
+            setUserAndPost(
                 userAndPost.filter(
                     (item) =>
                         item.userData?.userName?.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
@@ -44,27 +37,27 @@ const Home: React.FC = () => {
         }
     }, [searchText]);
 
-    const renderItem: ListRenderItem<PostData> | null | undefined = ({item, index}): JSX.Element => {
+    const renderItem = ({item}: any): JSX.Element => {
         return (
             <Post
-                key={index + Math.PI}
+                pressable={true}
                 userData={item.userData}
                 post={item.post}
                 album={item.album}
+                hideComments={!!item.album?.AlbumData}
             />
         )
     }
 
-
     const onEndReached = () => {
-        if (howPostsIsVisible < userAndPost.length && !searchText) {
-            setHowPostsIsVisible(howPostsIsVisible + 20);
+        if (!searchText) {
+            setPostTest(postTest + 1);
         }
     }
 
 
     const ListFooterComponent = () => {
-        if (visiblePost.length !== userAndPost.length && !searchText) {
+        if (!searchText) {
             return (
                 <ActivityIndicator size={40} color={"#e6a600"}/>
             )
@@ -73,31 +66,32 @@ const Home: React.FC = () => {
         }
     }
 
-
     return (
         <HomeContainer>
-            <FindInput
-                value={searchText}
-                onChangeText={(text: string) => setSearchText(text)}/>
             {userAndPost.length > 0
-                ? (<FlatList
-                    keyboardShouldPersistTaps={"handled"}
-                    initialNumToRender={5}
-                    keyExtractor={(item, index) => `${item.userData?.userId}-${index}-${item.post?.id || item.album?.AlbumData.id}`}
-                    showsVerticalScrollIndicator={false}
-                    style={{width: "93%"}}
-                    ListFooterComponent={ListFooterComponent}
-                    onEndReached={onEndReached}
-                    onEndReachedThreshold={0.1}
-                    data={visiblePost}
-                    renderItem={renderItem}
-                />)
-                : (<LoadingContainer>
-                    <ActivityIndicatorLoading size={60} color={"#e6a600"}/>
-                </LoadingContainer>)
+                ? (<>
+                        <FindInput
+                            value={searchText}
+                            onChangeText={(text: string) => setSearchText(text)}
+                        />
+                        <FlashList
+                            estimatedItemSize={300}
+                            keyboardShouldPersistTaps={"handled"}
+                            keyExtractor={(item, index) => index.toString()}
+                            showsVerticalScrollIndicator={false}
+                            ListFooterComponent={ListFooterComponent}
+                            onEndReached={onEndReached}
+                            onEndReachedThreshold={0.5}
+                            data={userAndPost}
+                            renderItem={renderItem}
+                            contentContainerStyle={{paddingHorizontal: 15}}
+                        />
+                    </>
+                )
+                : (<SkeletonHome></SkeletonHome>)
             }
         </HomeContainer>
     )
 }
 
-export default Home
+export {Home}

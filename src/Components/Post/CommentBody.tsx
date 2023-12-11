@@ -15,7 +15,7 @@ import {
 import CryptoJS from "rn-crypto-js"
 
 
-const   CommentBody: React.FC<CommentsData> = ({body, email, id}) => {
+const   CommentBody: React.FC<CommentsData> = ({body, email}) => {
 
     const [showMore, setShowMore] = useState(false);
     const onPress = () => {
@@ -26,11 +26,9 @@ const   CommentBody: React.FC<CommentsData> = ({body, email, id}) => {
     const textReducer = body.slice(0, 97)
 
     return (
-        <CommentView key={id}>
+        <CommentView>
             <HeaderComment>
                 <AvatarImage
-                    size={55}
-                    rounded
                     source={{uri: `https://www.gravatar.com/avatar/${hash}`}}
                 />
                 <TextUserName>{`b/${email}`}</TextUserName>

@@ -1,12 +1,11 @@
 import styled from "styled-components/native";
-import {Avatar} from "@rneui/base";
 
 export const PostContainer = styled.KeyboardAvoidingView`
   margin-top: 20px;
   background-color: ${props => props.theme.colors.primary};
   border-radius: 60px;
   margin-bottom: 20px;
-
+  flex: 1;
 `;
 
 export const PostHeaderView = styled.View`
@@ -28,9 +27,10 @@ export const PostCommentView = styled.KeyboardAvoidingView`
   margin-bottom: 15px;
 `;
 
-export const AvatarImage = styled(Avatar)`
+export const AvatarImage = styled.Image`
   height: 55px;
   width: 55px;
+  border-radius: 30px;
   margin-left: 13px;
 `;
 
@@ -39,6 +39,11 @@ export const TextUserName = styled.Text`
   font-size: 15px;
   margin-left: 5px;
   margin-bottom: 5px;
+`;
+
+export const ShowPerfilOpacity = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: flex-end;
 `;
 export const TitleView = styled.View`
 `;
@@ -68,7 +73,6 @@ export const CommentAmount = styled.Text`
 export const CommentsContainer = styled.KeyboardAvoidingView`
   flex: 1;
   background-color: ${props => props.theme.colors.backgound};
-  align-items: center;
 `;
 
 export const HeaderCommentsModalView = styled.View`
@@ -156,9 +160,14 @@ export const InputComment = styled.TextInput`
 `;
 
 
-export const SendCommentButton = styled.TouchableOpacity` 
+export const SendCommentButton = styled.TouchableOpacity`
   height: 45px;
   width: 45px;
   align-items: center;
   justify-content: center;
+`;
+
+
+export const ProfileCOntainer = styled.TouchableOpacity`
+
 `;

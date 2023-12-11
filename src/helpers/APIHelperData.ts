@@ -1,85 +1,112 @@
-import {get} from "./APIHelper";
 import {PostData} from "../Components/Post/interface";
 
-export const getUsersAndPosts = async (): Promise<PostData[]> => {
-    const users = await get("users");
-    const posts = await get("posts");
+export const getUsersAndPosts = async (id: number): Promise<PostData[]> => {
+    const baseURL = "https://jsonplaceholder.typicode.com"
 
-    const userAndPost: PostData[] = [];
-    let setPost = 0;
-
-    /*nessa primeira parte eu referencio cada usuario para seus posts, usando o id do usuario
-    * e o userId do post, o setPost serve como index para o array de posts */
-    users.map((item: any) => {
-        while (userAndPost.length < posts.length && item.id === posts[setPost].userId) {
-            userAndPost.push({
-                userData: {
-                    userId: item.id,
-                    userMail: item.email,
-                    userName: item.username,
-                },
-                post: {
-                    ...posts[setPost],
-                    comments: [],
-                }
-            })
-            setPost = setPost + 1;
-        }
-    })
-
-    const comments = await get("comments");
-    let setComment = 0;
-    /*nesta segunda parte eu pego os posts e adiciono comentarios a eles, bem semelhante
-    * a primeira parte, usando o setComment pata percorrer o array de comentarios*/
-    userAndPost.map((item) => {
-        while (setComment < comments.length && item.post?.id === comments[setComment].postId) {
-            item.post?.comments?.push({...comments[setComment]})
-            setComment = setComment + 1;
-        }
-    })
-
-    const albuns = await get("albums");
-    const albumAndPhotos: PostData[] = [];
-    let setAlbum = 0;
-    /*aqui então eu faço a ligação dos usuarios com os albuns*/
-    users.map((item: any) => {
-        while (albumAndPhotos.length < albuns.length && item.id === albuns[setAlbum].userId) {
-            albumAndPhotos.push({
-                userData: {
-                    userId: item.id,
-                    userMail: item.email,
-                    userName: item.username,
-                },
-                album: {
-                    AlbumData: {
-                        ...albuns[setAlbum],
-                        photos: []
-                    }
-                }
-            })
-            setAlbum = setAlbum + 1;
-        }
-    })
-
-    /*e aqui eu aldiciono as fotos referentes a cada album, useus em todos os maps sempre a mesma logica
-    * do while para ficar mais facil de entender*/
-    const photos = await get("photos");
-    let setPhoto = 0
-    albumAndPhotos.map((item) => {
-        while (setPhoto < photos.length && item.album?.AlbumData.id === photos[setPhoto].albumId) {
-            item.album?.AlbumData.photos.push({...photos[setPhoto]})
-            setPhoto = setPhoto + 1;
-        }
-    })
-
-
-    let count = 4;
-    const lengthByUserAndPost = userAndPost.length;
-    /*por fim eu faço um for, onde a cada 5 posições do array userAndPost eu vou adicionar um album aleatorio*/
-    for (let i = 0; i < 20 % lengthByUserAndPost; i++) {
-        let aleatoryAlbum = Math.floor(Math.random() * albuns.length)
-        userAndPost.splice(count, 0, albumAndPhotos[aleatoryAlbum]);
-        count = count + 5;
+    const fetchJSON = async (url: string) => {
+        const getData = await fetch(`${baseURL}/${url}`);
+        return await getData.json();
     }
-    return userAndPost
+    const user = await fetchJSON(`users/${id}`)
+    const posts = await fetchJSON(`posts?userId=${user.id}`)
+    const allUsersPost: PostData[] = [];
+
+
+    await Promise.all(posts.map(async (item: any) => {
+        const comment = await fetchJSON(`comments?postId=${item.id}`)
+        allUsersPost.push({
+            userData: {
+                userId: user.id,
+                userMail: user.email,
+                userName: user.username,
+            },
+            post: {
+                userId: item.userId,
+                id: item.id,
+                title: item.title,
+                body: item.body,
+                comments: [...comment],
+            }
+        })
+    }))
+
+    let albumPosition = 4;
+    for (let iterator = 0; iterator < 2; iterator++) {
+
+        let albumAleatorio = Math.floor(Math.random() * 100);
+        let album = await fetchJSON(`albums/${albumAleatorio}`);
+        let photos = await fetchJSON(`photos?albumId=${album.id}`);
+        let userAlbum = await fetchJSON(`users/${album.userId}`);
+
+        allUsersPost.splice(albumPosition, 1, {
+            userData: {
+                userId: userAlbum.id,
+                userMail: userAlbum.email,
+                userName: userAlbum.username,
+            },
+            album: {
+                AlbumData: {
+                    userId: userAlbum.id,
+                    id: album.id,
+                    title: album.title,
+                    photos: [...photos],
+                }
+            }
+        })
+        albumPosition = albumPosition + 5;
+    }
+
+    return allUsersPost;
+}
+
+export const getUserProfile = async (id: number): Promise<PostData[]> => {
+    const baseURL = "https://jsonplaceholder.typicode.com"
+
+    const fetchJSON = async (url: string) => {
+        const getData = await fetch(`${baseURL}/${url}`);
+        return await getData.json();
+    }
+    const user = await fetchJSON(`users/${id}`)
+    const posts = await fetchJSON(`posts?userId=${user.id}`)
+    const allPost: PostData[] = [];
+
+
+    await Promise.all(posts.map(async (item: any) => {
+        const comment = await fetchJSON(`comments?postId=${item.id}`)
+        allPost.push({
+            userData: {
+                userId: user.id,
+                userMail: user.email,
+                userName: user.username,
+            },
+            post: {
+                userId: item.userId,
+                id: item.id,
+                title: item.title,
+                body: item.body,
+                comments: [...comment],
+            }
+        })
+    }))
+
+    let albums = await fetchJSON(`albums?userId=${user.id}`);
+    await Promise.all(albums.map(async (album: any) => {
+        let photos = await fetchJSON(`photos?albumId=${album.id}`);
+        allPost.push({
+            userData: {
+                userId: user.id,
+                userMail: user.email,
+                userName: user.username,
+            },
+            album: {
+                AlbumData: {
+                    userId: user.id,
+                    id: album.id,
+                    title: album.title,
+                    photos: [...photos],
+                }
+            }
+        })
+    }))
+    return allPost;
 }

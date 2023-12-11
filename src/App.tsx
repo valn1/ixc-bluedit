@@ -5,6 +5,7 @@ import {ThemeProvider} from "styled-components";
 import dark from './styles/themes/dark'
 import light from "./styles/themes/light";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {StatusBar} from "react-native";
 
 export const AppContext: React.Context<any> = createContext('');
 
@@ -15,22 +16,27 @@ const App: React.FC = () => {
     useEffect(() => {
         const storeData = async () => {
             const theme = await AsyncStorage.getItem("themeConfig");
-            if(theme === "light"){
+            if (theme === "light") {
                 setTheme(light)
-            }else {
+            } else {
                 setTheme(dark)
             }
         }
         storeData()
-        }, [state.update])
+    }, [state.update])
 
 
-    return(
-        <AppContext.Provider value={{state, dispatch}}>
-            <ThemeProvider theme={theme}>
-                <Navigator/>
-            </ThemeProvider>
-        </AppContext.Provider>
+    return (
+        <>
+            <StatusBar barStyle={"light-content"} translucent={true} backgroundColor={"transparent"}></StatusBar>
+
+            <AppContext.Provider value={{state, dispatch}}>
+                <ThemeProvider theme={theme}>
+                    <Navigator/>
+                </ThemeProvider>
+            </AppContext.Provider>
+        </>
+
 
     )
 }

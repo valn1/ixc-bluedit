@@ -1,4 +1,6 @@
 import styled from "styled-components/native";
+import {Dimensions} from "react-native";
+import {RFValue} from "react-native-responsive-fontsize";
 
 export const CreatePostContainer = styled.View`
   flex: 1;
@@ -6,17 +8,19 @@ export const CreatePostContainer = styled.View`
 
 export const HeaderContainer = styled.View`
   width: 100%;
-  height: 80px;
+  height: 95px;
   background-color: #0b0224;
   align-items: center;
-  justify-content: space-between;
   flex-direction: row;
 `;
 
 export const HeaderText = styled.Text`
-  color: ${props => props.theme.colors.text};
-  font-size: 15px;
-  margin-left: 50px;
+  color: white;
+  font-size: ${RFValue(14)}px;
+  flex: 1;
+  text-align: center;
+  margin-left: 20%;
+  margin-top: 15px;
 `;
 
 export const TextInButton = styled.Text`
@@ -32,12 +36,14 @@ export const ButtonPost = styled.TouchableOpacity`
   justify-content: center;
   border-radius: 13px;
   margin-right: 20px;
+  margin-top: 15px;
 `;
 
 
 export const ButtonGeneric = styled.TouchableOpacity`
   margin-left: 23px;
   margin-right: 23px;
+  margin-top: 15px;
 `;
 
 export const BodyContainer = styled.KeyboardAvoidingView`
@@ -50,12 +56,12 @@ export const ViewInput = styled.View`
 `;
 
 export const InputTitle = styled.TextInput`
-  font-size: 30px;
+  font-size: ${RFValue(25)}px;
   color: ${props => props.theme.colors.text};
 `;
 
 export const InputText = styled.TextInput`
-  font-size: 20px;
+  font-size: ${RFValue(16)}px;
   color: ${props => props.theme.colors.text};
   width: 72%;
 `;
@@ -86,7 +92,7 @@ export const TakePhotoButton = styled.TouchableOpacity`
 
 export const HeaderCamera = styled.View`
   width: 100%;
-  height: 70px;
+  height: 90px;
   background-color: ${props => props.theme.colors.backgound};
   align-items: center;
   justify-content: space-between;
@@ -112,14 +118,14 @@ export const ImageInCamera = styled.Image`
   transform: rotate(270deg);
 `;
 export const ImageInGallery = styled.Image`
-  height: 500px;
-  width: 500px;
+  height: ${Dimensions.get("window").height / 2.5}px;
+  width: ${Dimensions.get("window").width}px;
 `;
 
 export const InputLink = styled.TextInput`
   width: 80%;
   height: 110px;
-  background-color: ${props => props.theme.bg};
+  background-color: ${props => props.theme.colors.backgound};
   border-radius: 20px;
   border: 5px ${props => props.theme.colors.secundary};
   margin-left: 20px;

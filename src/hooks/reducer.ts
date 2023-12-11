@@ -14,7 +14,8 @@ const inicialAppState : AppState = {
         changeName: false,
         changeTheme: false
     },
-    theme: "dark"
+    newPost: false,
+    currentID: -1
 }
 
 
@@ -26,16 +27,11 @@ const reducer = (state: AppState, action: any) => {
                 url: [...state.url, action.payload]
             }
         }
-        case "DEFINE_TITLE":{
+        case "DEFINE_TITLE_AND_BODY":{
             return{
                 ...state,
-                title: action.payload
-            }
-        }
-        case "DEFINE_BODY":{
-            return{
-                ...state,
-                body: action.payload
+                title: action.payload.title,
+                body: action.payload.body
             }
         }
         case "ROTATE_IMAGE":{
@@ -52,12 +48,6 @@ const reducer = (state: AppState, action: any) => {
                     body: action.payload.body,
                     email: action.payload.email
                 }]
-            }
-        }
-        case "ASYNC_POST": {
-            return {
-                ...state,
-
             }
         }
         case "COMENTARIO": {
@@ -83,9 +73,13 @@ const reducer = (state: AppState, action: any) => {
         case "CLEAR_POST" : {
             return {
                 ...state,
-                title: "",
-                body: "",
                 url: []
+            }
+        }
+        case "NEW_POST" : {
+            return {
+                ...state,
+                newPost: !state.newPost
             }
         }
         case "EXCLUDE_PHOTO": {
@@ -105,7 +99,7 @@ const reducer = (state: AppState, action: any) => {
             return {
                 ...state,
                 perfilOptions: {
-                    changeName: action.payload,
+                    changeName: !state.perfilOptions.changeName,
                     changeTheme: false
                 }
             }
@@ -114,15 +108,15 @@ const reducer = (state: AppState, action: any) => {
             return {
                 ...state,
                 perfilOptions: {
-                    changeTheme: action.payload,
+                    changeTheme: !state.perfilOptions.changeTheme,
                     changeName: false
                 }
             }
         }
-        case "THEME": {
+        case "CURRENT_ID": {
             return {
                 ...state,
-                theme: action.payload
+                currentID: action.payload
             }
         }
         default: {

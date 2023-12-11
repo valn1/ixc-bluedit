@@ -28,5 +28,6 @@ export interface AppState {
         changeName: boolean,
         changeTheme: boolean
     }
-    theme: string
+    newPost: boolean,
+    currentID: number
 }

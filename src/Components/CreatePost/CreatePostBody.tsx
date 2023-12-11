@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import {
     BodyContainer,
     InputTitle,
@@ -28,14 +28,21 @@ import {
 } from "react-native";
 import {launchImageLibrary} from 'react-native-image-picker';
 import Icon from "react-native-vector-icons/FontAwesome5";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import uuid from "react-native-uuid";
+import {useTheme} from "styled-components";
 
 const CreatePostBody: React.FC = () => {
     const navigation: NavigationProp<any> = useNavigation();
     const [currentIndex, setCurrentIndex] = useState(0)
     const [showModal, setShowModal] = useState(false)
     const [link, setLink] = useState("");
+    const [title, setTitle] = useState('');
+    const [body, setBody] = useState('');
 
     const {state, dispatch} = useContext(AppContext)
+
+    const theme = useTheme();
 
     const takePhoto = () => {
         navigation.navigate("TakePhoto");
@@ -67,14 +74,12 @@ const CreatePostBody: React.FC = () => {
                 )}
                 <ButtonView>
                     <TouchableOpacity
-                        onPress={() => excludePhoto(item, index)}
+                        onPress={() => excludePhoto(item)}
                     ><Icon name={"times"} size={35} color={"white"}/></TouchableOpacity>
                 </ButtonView>
             </ImageContainer>
         );
     };
-
-
     const HeadetComponente = () => {
         return (
             <PaginationView>
@@ -116,31 +121,83 @@ const CreatePostBody: React.FC = () => {
         } else {
             setShowModal(false);
         }
-
     }
+
+    const newPublication = {
+        title: title,
+        body: body,
+        email: "alexandrebeilner10@gmail.com",
+        url: state.url,
+        id: uuid.v4()
+    }
+
+    const storeData = async () => {
+        try {
+            const asyncPublication = await AsyncStorage.getItem("Publication");
+            let asyncPost = [];
+
+            if (asyncPublication !== null) {
+                asyncPost = JSON.parse(asyncPublication);
+            }
+
+            asyncPost.unshift(newPublication);
+
+            await AsyncStorage.setItem("Publication", JSON.stringify(asyncPost));
+
+        } catch (error) {
+            console.log("Erro ao armazenar dados: ", error);
+        }
+    };
+
+    useEffect(() => {
+        if (title) {
+            if (title && body && state.url.length === 0) {
+                dispatch({
+                    type: "PUBLICACAO",
+                    payload: {
+                        title: title,
+                        body: body,
+                        email: "alexandrebeilner10@gmail.com"
+                    }
+                })
+            }
+            if (state.url.length > 0 && title) {
+                dispatch({
+                    type: "ALBUM",
+                    payload: {
+                        url: state.url,
+                        title: title,
+                        body: body,
+                        email: "alexandrebeilner10@gmail.com"
+                    }
+                })
+            }
+            storeData();
+            dispatch({
+                type: "CLEAR_POST",
+            })
+            setBody("");
+            setTitle("");
+        }
+        dispatch({type: "UPDATE"})
+    }, [state.newPost])
 
 
     return (
         <BodyContainer>
             <ViewInput>
                 <InputTitle
-                    value={state.title}
-                    onChangeText={(text) => dispatch({
-                        type: "DEFINE_TITLE",
-                        payload: text
-                    })}
+                    value={title}
+                    onChangeText={(text) => setTitle(text)}
                     placeholder={"Título"}
-                    placeholderTextColor={state.theme === "dark" ? 'white' : "black"}></InputTitle>
+                    placeholderTextColor={theme.colors.text}></InputTitle>
                 <InputText
                     multiline={true}
                     numberOfLines={3}
-                    value={state.body}
-                    onChangeText={(text) => dispatch({
-                        type: "DEFINE_BODY",
-                        payload: text
-                    })}
+                    value={body}
+                    onChangeText={(text) => setBody(text)}
                     placeholder={"Texto da publicação(opcional)"}
-                    placeholderTextColor={state.theme === "dark" ? 'white' : "black"}></InputText>
+                    placeholderTextColor={theme.colors.text}></InputText>
                 {state.url.length > 1 && <HeadetComponente></HeadetComponente>}
             </ViewInput>
             <FlatList
@@ -154,15 +211,15 @@ const CreatePostBody: React.FC = () => {
                 renderItem={renderItem}/>
             <AllOptionsPost>
                 <GenericButton
-                    IconsProps={{name: "camera", size: 32, color: state.theme === "dark" ? '#baddfd' : "#170044"}}
+                    IconsProps={{name: "camera", size: 26, color: theme.colors.iconCreate}}
                     onPress={takePhoto}
                 />
                 <GenericButton
                     onPress={openGallery}
-                    IconsProps={{name: "images", size: 32, color: state.theme === "dark" ? '#baddfd' : "#170044"}}/>
+                    IconsProps={{name: "images", size: 26, color: theme.colors.iconCreate}}/>
                 <GenericButton
                     onPress={() => setShowModal(true)}
-                    IconsProps={{name: "link", size: 32, color: state.theme === "dark" ? '#baddfd' : "#170044"}}/>
+                    IconsProps={{name: "link", size: 26, color: theme.colors.iconCreate}}/>
                 <Modal
                     visible={showModal}
                     transparent={true}
@@ -187,6 +244,7 @@ const CreatePostBody: React.FC = () => {
                 </Modal>
             </AllOptionsPost>
         </BodyContainer>
+
     )
 }
 
